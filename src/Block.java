@@ -24,6 +24,10 @@ public class Block {
 		show = true;
 	}
 	
+	public void stop() {
+		this.moving = false;
+	}
+	
 	public boolean show() {
 		return show;
 	}
