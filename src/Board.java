@@ -20,10 +20,16 @@ public class Board implements ActionListener {
 	}
 	
 	public void init() {
-		matrix[0][0].init();
-		matrix[0][1].init();
-		matrix[0][2].init();
-		matrix[1][1].init();
+		matrix[0][4].init();
+		matrix[1][4].init();
+		matrix[2][4].init();
+		matrix[1][3].init();
+		
+		matrix[19][0] = new Block(true, false);
+		matrix[19][1] = new Block(true, false);
+		matrix[19][2] = new Block(true, false);
+		matrix[19][3] = new Block(true, false);
+		
 		timer.start();
 	}
 	
@@ -45,12 +51,13 @@ public class Board implements ActionListener {
 		/* Moves the block at i, j position, and if it hits the last line, 
 		 * calls the stopAll() method.
 		 */
-		if (i < matrix.length - 1) {
-			// Block is not at the last line
+		if (i < matrix.length - 1 && !matrix[i+1][j].show()) {
+			// Block is not at the last line and there is not any block
+			// under it
 			matrix[i+1][j] = matrix[i][j];
 			matrix[i][j] = new Block(false, false);
 		} else {
-			// moving block hit last line
+			// moving block hit last line or hit another block
 			stopAll();
 		}
 	}
