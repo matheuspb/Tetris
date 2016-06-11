@@ -47,18 +47,19 @@ public class Board implements ActionListener {
 		System.out.println(text);
 	}
 	
-	private void moveDown(int i, int j) {
+	private boolean moveDown(int i, int j) {
 		/* Moves the block at i, j position, and if it hits the last line, 
-		 * calls the stopAll() method.
+		 * or finds another block under the corrent block, returns false
 		 */
 		if (i < matrix.length - 1 && !matrix[i+1][j].show()) {
 			// Block is not at the last line and there is not any block
 			// under it
 			matrix[i+1][j] = matrix[i][j];
 			matrix[i][j] = new Block(false, false);
+			return true;
 		} else {
 			// moving block hit last line or hit another block
-			stopAll();
+			return false;
 		}
 	}
 	
@@ -71,11 +72,22 @@ public class Board implements ActionListener {
 		}
 	}
 	
+	private boolean detectFullLine(int i) {
+		// Returns true if line i is completed, else returns false
+		for (int j = 0; j < matrix[0].length; j++) {
+			if (!matrix[i][j].show())
+				return false;
+		}
+		return true;
+	}
+	
 	private void update() {
+		boolean stop = false;
 		for (int i = matrix.length - 1; i >= 0; i--) {
 			for (int j = matrix[0].length - 1; j >= 0; j--) {
-				if (matrix[i][j].moving())
-					moveDown(i, j);
+				if (matrix[i][j].moving() && !stop)
+					if (!moveDown(i, j))
+						stop = true;
 			}
 		}
 	}
