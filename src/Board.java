@@ -8,7 +8,6 @@ public class Board implements ActionListener {
 	
 	private Block[][] matrix;
 	private Timer timer;
-	int n = 0;
 	
 	public Board() {
 		matrix = new Block[20][10];
@@ -17,14 +16,14 @@ public class Board implements ActionListener {
 				matrix[i][j] = new Block(false, false);
 			}
 		}
-		timer = new Timer(1000, this);
+		timer = new Timer(500, this);
 	}
 	
 	public void init() {
-		matrix[17][4].init();
-		matrix[18][4].init();
-		matrix[19][4].init();
-		matrix[18][3].init();
+		matrix[0][3].init();
+		matrix[0][4].init();
+		matrix[0][5].init();
+		matrix[0][6].init();
 		
 		matrix[19][0] = new Block(true, false);
 		matrix[19][1] = new Block(true, false);
@@ -48,19 +47,16 @@ public class Board implements ActionListener {
 		System.out.println(text);
 	}
 	
-	private boolean moveDown(int i, int j) {
-		/* Moves the block at i, j position, and if it hits the last line, 
-		 * or finds another block under the corrent block, returns false
-		 */
-		if (i < matrix.length - 1 && !matrix[i+1][j].show()) {
-			// Block is not at the last line and there is not any block
-			// under it
-			matrix[i+1][j] = matrix[i][j];
-			matrix[i][j] = new Block(false, false);
+	private void moveDown(int i, int j) {
+		// Moves down the block at i j position
+		matrix[i+1][j] = matrix[i][j];
+		matrix[i][j] = new Block(false, false);
+	}
+	
+	private boolean detectCollision(int i, int j) {
+		if (i == matrix.length - 1 || matrix[i+1][j].show()) {
 			return true;
 		} else {
-			// moving block hit last line or hit another block
-			stopAll();
 			return false;
 		}
 	}
@@ -98,8 +94,13 @@ public class Board implements ActionListener {
 	private void update() {
 		for (int i = matrix.length - 1; i >= 0; i--) {
 			for (int j = matrix[0].length - 1; j >= 0; j--) {
-				if (matrix[i][j].moving())
-					moveDown(i, j);
+				if (matrix[i][j].moving()) {
+					if (detectCollision(i, j)) {
+						stopAll();
+					} else {
+						moveDown(i, j);
+					}
+				}
 			}
 		}
 	}
@@ -108,10 +109,6 @@ public class Board implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		update();
 		debug();
-		if (n == 2) {
-			clearLine(18);
-		}
-		n++;
 	}
 
 }
