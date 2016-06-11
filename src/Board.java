@@ -20,10 +20,10 @@ public class Board implements ActionListener {
 	}
 	
 	public void init() {
-		matrix[0][3].init();
-		matrix[0][4].init();
-		matrix[0][5].init();
-		matrix[0][6].init();
+		matrix[10][3].init();
+		matrix[10][4].init();
+		matrix[10][5].init();
+		matrix[10][6].init();
 		
 		matrix[19][0] = new Block(true, false);
 		matrix[19][1] = new Block(true, false);
@@ -47,21 +47,27 @@ public class Board implements ActionListener {
 		System.out.println(text);
 	}
 	
-	private void moveDown(int i, int j) {
-		// Moves down the block at i j position
-		if (matrix[i][j].moving()) {
+	private void moveDown(int i, int j, boolean force) {
+		/* Moves down the block at i j position. If force is false, it will
+		 * only move the blocks with moving() == true.
+		 */
+		if (matrix[i][j].moving() || force) {
 			matrix[i+1][j] = matrix[i][j];
 			matrix[i][j] = new Block(false, false);
 		}
 	}
 	
-	private void moveLineDown(int n) {
+	private void moveLineDown(int n, boolean force) {
+		// Moves all blocks at line n down
 		for (int i = 0; i < matrix[0].length; i++) {
-			moveDown(n, i);
+			moveDown(n, i, force);
 		}
 	}
 	
 	private boolean detectCollision(int i, int j) {
+		/* Returns true if block is at last line or there is another block
+		 * under it
+		 */
 		if (i == matrix.length - 1 || matrix[i+1][j].show()) {
 			return true;
 		} else {
@@ -89,19 +95,14 @@ public class Board implements ActionListener {
 	
 	private void clearLine(int n) {
 		// Clears line n, then moves all other lines above down
-		for (int i = 0; i < matrix[0].length; i++) {
-			matrix[n][i] = new Block(false, false);
-		}
 		for (int i = n-1; i >= 0; i--) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				moveDown(i, j);
-			}
+			moveLineDown(i, true);
 		}
 	}
 	
 	private void update() {
 		boolean collided = false;
-		for (int i = matrix.length - 2; i >= 0; i--) {
+		for (int i = matrix.length - 1; i >= 0; i--) {
 			for (int j = matrix[0].length - 1; j >= 0; j--) {
 				if (matrix[i][j].moving()) {
 					if (detectCollision(i, j)) {
@@ -112,7 +113,7 @@ public class Board implements ActionListener {
 			if (collided) {
 				stopAll();
 			} else {
-				moveLineDown(i);
+				moveLineDown(i, false);
 			}
 		}
 	}
