@@ -14,11 +14,6 @@ public class Block {
 		this.moving = moving;
 	}
 	
-	public void clearBlock() {
-		// Reinitializes block
-		show = false;
-	}
-	
 	public void init() {
 		moving = true;
 		show = true;

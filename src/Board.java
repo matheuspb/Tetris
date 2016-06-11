@@ -42,6 +42,9 @@ public class Board implements ActionListener {
 	}
 	
 	private void moveDown(int i, int j) {
+		/* Moves the block at i, j position, and if it hits the last line, 
+		 * calls the stopAll() method.
+		 */
 		if (i < matrix.length - 1) {
 			// Block is not at the last line
 			matrix[i+1][j] = matrix[i][j];
@@ -53,8 +56,9 @@ public class Board implements ActionListener {
 	}
 	
 	private void stopAll() {
-		for (int i = matrix.length - 1; i >= 0; i--) {
-			for (int j = matrix[0].length - 1; j >= 0; j--) {
+		// Stops all blocks
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
 				matrix[i][j].stop();
 			}
 		}
