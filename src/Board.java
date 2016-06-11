@@ -8,6 +8,7 @@ public class Board implements ActionListener {
 	
 	private Block[][] matrix;
 	private Timer timer;
+	int n = 0;
 	
 	public Board() {
 		matrix = new Block[20][10];
@@ -20,10 +21,10 @@ public class Board implements ActionListener {
 	}
 	
 	public void init() {
-		matrix[0][4].init();
-		matrix[1][4].init();
-		matrix[2][4].init();
-		matrix[1][3].init();
+		matrix[17][4].init();
+		matrix[18][4].init();
+		matrix[19][4].init();
+		matrix[18][3].init();
 		
 		matrix[19][0] = new Block(true, false);
 		matrix[19][1] = new Block(true, false);
@@ -59,6 +60,7 @@ public class Board implements ActionListener {
 			return true;
 		} else {
 			// moving block hit last line or hit another block
+			stopAll();
 			return false;
 		}
 	}
@@ -81,13 +83,23 @@ public class Board implements ActionListener {
 		return true;
 	}
 	
+	private void clearLine(int n) {
+		// Clears line n, then moves all other lines above down
+		for (int i = 0; i < matrix[0].length; i++) {
+			matrix[n][i] = new Block(false, false);
+		}
+		for (int i = n-1; i >= 0; i--) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				moveDown(i, j);
+			}
+		}
+	}
+	
 	private void update() {
-		boolean stop = false;
 		for (int i = matrix.length - 1; i >= 0; i--) {
 			for (int j = matrix[0].length - 1; j >= 0; j--) {
-				if (matrix[i][j].moving() && !stop)
-					if (!moveDown(i, j))
-						stop = true;
+				if (matrix[i][j].moving())
+					moveDown(i, j);
 			}
 		}
 	}
@@ -96,6 +108,10 @@ public class Board implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		update();
 		debug();
+		if (n == 2) {
+			clearLine(18);
+		}
+		n++;
 	}
 
 }
