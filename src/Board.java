@@ -16,19 +16,20 @@ public class Board implements ActionListener {
 				matrix[i][j] = new Block(false, false);
 			}
 		}
-		timer = new Timer(500, this);
+		timer = new Timer(1000, this);
 	}
 	
 	public void init() {
-		matrix[10][3].init();
-		matrix[10][4].init();
-		matrix[10][5].init();
-		matrix[10][6].init();
+		matrix[10][8].init();
+		matrix[10][9].init();
+		matrix[11][9].init();
+		matrix[12][9].init();
 		
-		matrix[19][0] = new Block(true, false);
-		matrix[19][1] = new Block(true, false);
-		matrix[19][2] = new Block(true, false);
-		matrix[19][3] = new Block(true, false);
+		for (int i = 18; i < 20; i++) {
+			for (int j = 0; j < 9; j++) {
+				matrix[i][j] = new Block(true, false);
+			}
+		}
 		
 		timer.start();
 	}
@@ -100,14 +101,21 @@ public class Board implements ActionListener {
 		}
 	}
 	
+	private void clearFullLines() {
+		// Detects and clears full lines
+		for (int i = 0; i < matrix.length; i++) {
+			if (detectFullLine(i)) {
+				clearLine(i);
+			}
+		}
+	}
+	
 	private void update() {
 		boolean collided = false;
 		for (int i = matrix.length - 1; i >= 0; i--) {
 			for (int j = matrix[0].length - 1; j >= 0; j--) {
 				if (matrix[i][j].moving()) {
-					if (detectCollision(i, j)) {
-						collided = true;
-					}
+					collided = detectCollision(i, j);
 				}
 			}
 			if (collided) {
@@ -115,6 +123,9 @@ public class Board implements ActionListener {
 			} else {
 				moveLineDown(i, false);
 			}
+		}
+		if (collided) {
+			clearFullLines();
 		}
 	}
 
