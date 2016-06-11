@@ -49,8 +49,16 @@ public class Board implements ActionListener {
 	
 	private void moveDown(int i, int j) {
 		// Moves down the block at i j position
-		matrix[i+1][j] = matrix[i][j];
-		matrix[i][j] = new Block(false, false);
+		if (matrix[i][j].moving()) {
+			matrix[i+1][j] = matrix[i][j];
+			matrix[i][j] = new Block(false, false);
+		}
+	}
+	
+	private void moveLineDown(int n) {
+		for (int i = 0; i < matrix[0].length; i++) {
+			moveDown(n, i);
+		}
 	}
 	
 	private boolean detectCollision(int i, int j) {
@@ -92,15 +100,19 @@ public class Board implements ActionListener {
 	}
 	
 	private void update() {
-		for (int i = matrix.length - 1; i >= 0; i--) {
+		boolean collided = false;
+		for (int i = matrix.length - 2; i >= 0; i--) {
 			for (int j = matrix[0].length - 1; j >= 0; j--) {
 				if (matrix[i][j].moving()) {
 					if (detectCollision(i, j)) {
-						stopAll();
-					} else {
-						moveDown(i, j);
+						collided = true;
 					}
 				}
+			}
+			if (collided) {
+				stopAll();
+			} else {
+				moveLineDown(i);
 			}
 		}
 	}
