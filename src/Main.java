@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 public class Main {
@@ -5,13 +7,14 @@ public class Main {
 	public static void main(String[] args) {
 
 		JFrame window = new JFrame();
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		window.setSize(300, 640);
 		
 		Board b = new Board();
 		Panel pan = new Panel(b);
-
+		
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.getContentPane().setPreferredSize(new Dimension(300, 600));
+		window.pack();
+		window.setResizable(false);
 		window.add(pan);
 		window.setVisible(true);
 
