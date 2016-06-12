@@ -20,10 +20,10 @@ public class Board implements ActionListener {
 	}
 	
 	public void init() {
-		matrix[10][8].init();
-		matrix[10][9].init();
-		matrix[11][9].init();
-		matrix[12][9].init();
+		matrix[0][8].init();
+		matrix[0][9].init();
+		matrix[1][9].init();
+		matrix[2][9].init();
 		
 		for (int i = 18; i < 20; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -110,6 +110,19 @@ public class Board implements ActionListener {
 		}
 	}
 	
+	public boolean[][] matrix() {
+		/* Returns a 2D array of booleans, where they're true when you need
+		 * to show a block.
+		 */
+		boolean[][] out = new boolean[20][10];
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				out[i][j] = matrix[i][j].show();
+			}
+		}
+		return out;
+	}
+	
 	private void update() {
 		boolean collided = false;
 		for (int i = matrix.length - 1; i >= 0; i--) {
@@ -132,7 +145,7 @@ public class Board implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		update();
-		debug();
+		//debug();
 	}
 
 }
