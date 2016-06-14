@@ -21,7 +21,6 @@ public class Panel extends JPanel {
 			System.out.println(e.getMessage());
 		}
 		this.board = board;
-		this.board.init();
 	}
 	
 	public void draw() {
