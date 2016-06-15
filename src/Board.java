@@ -5,6 +5,11 @@ import javax.swing.Timer;
 
 public class Board implements ActionListener {
 
+	/*
+	 * This class holds the logic of the program, it consists on a 20x10 2D
+	 * array of Blocks, and a Timer to pace the game.
+	 */
+
 	private Block[][] matrix;
 	private Timer timer;
 
@@ -113,8 +118,8 @@ public class Board implements ActionListener {
 
 	public boolean[][] matrix() {
 		/*
-		 * Returns a 2D array of booleans, where they're true when you need to
-		 * show a block.
+		 * Returns a 2D array of booleans. It holds true when you need to show a
+		 * block at (i, j) coordinate of the grid.
 		 */
 		boolean[][] out = new boolean[20][10];
 		for (int i = 0; i < matrix.length; i++) {

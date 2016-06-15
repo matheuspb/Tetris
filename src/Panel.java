@@ -35,11 +35,13 @@ public class Panel extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		// Draws block images on the correct positions based on board.matrix()
 		super.paintComponent(g);
-		boolean[][] matrix = board.matrix();
+		boolean[][] matrix = board.matrix(); // See matrix() method in Board
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				if (matrix[i][j]) {
+					// Draws the block image at (i, j) coordinate.
 					g.drawImage(block, BLOCK_SIZE * j, BLOCK_SIZE * i,
 							BLOCK_SIZE, BLOCK_SIZE, this);
 				}
