@@ -32,20 +32,20 @@ public class Board implements ActionListener {
 		timer.start();
 	}
 
-	public void moveToLeft(){
-		if(canMoveLeft()) {
+	public void moveToLeft() {
+		if (canMoveLeft()) {
 			for (int i = 0; i < matrix.length; i++) {
 				for (int j = 0; j < matrix[0].length; j++) {
 					moveOneBlock(i, j, false);
 				}
 			}
 		}
-    }
+	}
 
-    public void moveToRight(){
-		if(canMoveRight()) {
+	public void moveToRight() {
+		if (canMoveRight()) {
 			for (int i = 0; i < matrix.length; i++) {
-				for (int j = matrix[0].length-1; j >= 0; j--) {
+				for (int j = matrix[0].length - 1; j >= 0; j--) {
 					moveOneBlock(i, j, true);
 				}
 			}
@@ -99,8 +99,10 @@ public class Board implements ActionListener {
 	private boolean canMoveRight() {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				if (matrix[i][j].moving()){
-					if(j == 9 || (!matrix[i][j+1].moving() && matrix[i][j+1].show())) {
+				if (matrix[i][j].moving()) {
+					if (j == 9
+							|| (!matrix[i][j + 1].moving() && matrix[i][j + 1]
+									.show())) {
 						return false;
 					}
 				}
@@ -112,8 +114,10 @@ public class Board implements ActionListener {
 	private boolean canMoveLeft() {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				if (matrix[i][j].moving()){
-					if(j == 0 || (!matrix[i][j-1].moving() && matrix[i][j-1].show())) {
+				if (matrix[i][j].moving()) {
+					if (j == 0
+							|| (!matrix[i][j - 1].moving() && matrix[i][j - 1]
+									.show())) {
 						return false;
 					}
 				}
@@ -122,21 +126,11 @@ public class Board implements ActionListener {
 		return true;
 	}
 
-	private boolean canMoveDown() {
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				if (matrix[i][j].moving() && detectCollision(i, j)) { return false; }
-			}
-		}
-		return true;
-	}
-
 	private void moveOneBlock(int i, int j, boolean right) {
-		if(right && matrix[i][j].moving()) {
+		if (right && matrix[i][j].moving()) {
 			matrix[i][j + 1] = matrix[i][j];
 			matrix[i][j] = new Block(false, false);
-		}
-		else if(matrix[i][j].moving()) {
+		} else if (matrix[i][j].moving()) {
 			matrix[i][j - 1] = matrix[i][j];
 			matrix[i][j] = new Block(false, false);
 		}
