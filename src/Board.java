@@ -122,6 +122,15 @@ public class Board implements ActionListener {
 		return true;
 	}
 
+	private boolean canMoveDown() {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				if (matrix[i][j].moving() && detectCollision(i, j)) { return false; }
+			}
+		}
+		return true;
+	}
+
 	private void moveOneBlock(int i, int j, boolean right) {
 		if(right && matrix[i][j].moving()) {
 			matrix[i][j + 1] = matrix[i][j];
