@@ -25,15 +25,9 @@ public class Board implements ActionListener {
 
 	public void init() {
 		matrix[0][1].init();
-		matrix[1][0].init();
 		matrix[1][1].init();
-		matrix[1][2].init();
-
-		for (int i = 18; i < 20; i++) {
-			for (int j = 0; j < 9; j++) {
-				matrix[i][j] = new Block(true, false);
-			}
-		}
+		matrix[2][1].init();
+		matrix[3][1].init();
 
 		timer.start();
 	}
@@ -191,12 +185,14 @@ public class Board implements ActionListener {
 		boolean collided = false;
 		for (int i = matrix.length - 1; i >= 0; i--) {
 			for (int j = matrix[0].length - 1; j >= 0; j--) {
-				if (matrix[i][j].moving()) {
-					collided = detectCollision(i, j);
+				if (matrix[i][j].moving() && detectCollision(i, j)) {
+					collided = true;
+					break;
 				}
 			}
 			if (collided) {
 				stopAll();
+				init();
 			} else {
 				moveLineDown(i, false);
 			}
