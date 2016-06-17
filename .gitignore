@@ -5,3 +5,10 @@
 .project
 /.settings
 
+<<<<<<< HEAD
+=======
+
+.idea
+Tetris.iml
+/out
+>>>>>>> develop-lucasb

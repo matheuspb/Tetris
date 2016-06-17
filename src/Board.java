@@ -24,18 +24,32 @@ public class Board implements ActionListener {
 	}
 
 	public void init() {
-		matrix[0][8].init();
-		matrix[0][9].init();
-		matrix[1][9].init();
-		matrix[2][9].init();
-
-		for (int i = 18; i < 20; i++) {
-			for (int j = 0; j < 9; j++) {
-				matrix[i][j] = new Block(true, false);
-			}
-		}
+		matrix[0][1].init();
+		matrix[1][1].init();
+		matrix[2][1].init();
+		matrix[3][1].init();
 
 		timer.start();
+	}
+
+	public void moveToLeft(){
+		if(canMoveLeft()) {
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = 0; j < matrix[0].length; j++) {
+					moveOneBlock(i, j, false);
+				}
+			}
+		}
+    }
+
+    public void moveToRight(){
+		if(canMoveRight()) {
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = matrix[0].length-1; j >= 0; j--) {
+					moveOneBlock(i, j, true);
+				}
+			}
+		}
 	}
 
 	private void debug() {
@@ -79,6 +93,52 @@ public class Board implements ActionListener {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	private boolean canMoveRight() {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				if (matrix[i][j].moving()){
+					if(j == 9 || (!matrix[i][j+1].moving() && matrix[i][j+1].show())) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean canMoveLeft() {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				if (matrix[i][j].moving()){
+					if(j == 0 || (!matrix[i][j-1].moving() && matrix[i][j-1].show())) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean canMoveDown() {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				if (matrix[i][j].moving() && detectCollision(i, j)) { return false; }
+			}
+		}
+		return true;
+	}
+
+	private void moveOneBlock(int i, int j, boolean right) {
+		if(right && matrix[i][j].moving()) {
+			matrix[i][j + 1] = matrix[i][j];
+			matrix[i][j] = new Block(false, false);
+		}
+		else if(matrix[i][j].moving()) {
+			matrix[i][j - 1] = matrix[i][j];
+			matrix[i][j] = new Block(false, false);
 		}
 	}
 
@@ -134,12 +194,14 @@ public class Board implements ActionListener {
 		boolean collided = false;
 		for (int i = matrix.length - 1; i >= 0; i--) {
 			for (int j = matrix[0].length - 1; j >= 0; j--) {
-				if (matrix[i][j].moving()) {
-					collided = detectCollision(i, j);
+				if (matrix[i][j].moving() && detectCollision(i, j)) {
+					collided = true;
+					break;
 				}
 			}
 			if (collided) {
 				stopAll();
+				init();
 			} else {
 				moveLineDown(i, false);
 			}
