@@ -14,7 +14,7 @@ public class Board implements ActionListener {
 	private Block[][] matrix;
 	private Timer timer;
 
-	String[] pieceSequence;
+	char[] pieceSequence;
 	int index;
 
 	public Board() {
@@ -25,14 +25,14 @@ public class Board implements ActionListener {
 			}
 		}
 		timer = new Timer(500, this);
-		pieceSequence = new String[7];
-		pieceSequence[0] = "I";
-		pieceSequence[1] = "J";
-		pieceSequence[2] = "L";
-		pieceSequence[3] = "S";
-		pieceSequence[4] = "Z";
-		pieceSequence[5] = "T";
-		pieceSequence[6] = "O";
+		pieceSequence = new char[7];
+		pieceSequence[0] = 'I';
+		pieceSequence[1] = 'J';
+		pieceSequence[2] = 'L';
+		pieceSequence[3] = 'S';
+		pieceSequence[4] = 'Z';
+		pieceSequence[5] = 'T';
+		pieceSequence[6] = 'O';
 		index = 0;
 	}
 
@@ -48,37 +48,37 @@ public class Board implements ActionListener {
 		 * generates it. When it reaches the end of 'pieceSequence', it calls
 		 * shuffleSequence() to regenerate the pattern.
 		 */
-		if (pieceSequence[index].equals("I")) {
+		if (pieceSequence[index] == 'I') {
 			matrix[0][3].init();
 			matrix[0][4].init();
 			matrix[0][5].init();
 			matrix[0][6].init();
-		} else if (pieceSequence[index].equals("J")) {
+		} else if (pieceSequence[index] == 'J') {
 			matrix[0][3].init();
 			matrix[1][3].init();
 			matrix[1][4].init();
 			matrix[1][5].init();
-		} else if (pieceSequence[index].equals("L")) {
+		} else if (pieceSequence[index] == 'L') {
 			matrix[0][5].init();
 			matrix[1][3].init();
 			matrix[1][4].init();
 			matrix[1][5].init();
-		} else if (pieceSequence[index].equals("S")) {
+		} else if (pieceSequence[index] == 'S') {
 			matrix[0][5].init();
 			matrix[0][4].init();
 			matrix[1][4].init();
 			matrix[1][3].init();
-		} else if (pieceSequence[index].equals("Z")) {
+		} else if (pieceSequence[index] == 'Z') {
 			matrix[0][3].init();
 			matrix[0][4].init();
 			matrix[1][4].init();
 			matrix[1][5].init();
-		} else if (pieceSequence[index].equals("T")) {
+		} else if (pieceSequence[index] == 'T') {
 			matrix[0][4].init();
 			matrix[1][3].init();
 			matrix[1][4].init();
 			matrix[1][5].init();
-		} else if (pieceSequence[index].equals("O")) {
+		} else if (pieceSequence[index] == 'O') {
 			matrix[0][4].init();
 			matrix[0][5].init();
 			matrix[1][4].init();
@@ -97,7 +97,7 @@ public class Board implements ActionListener {
 		for (int i = 0; i < pieceSequence.length - 1; i++) {
 			// Generates a random index, and then switches with the element at i
 			int index = rnd.nextInt(pieceSequence.length);
-			String tmp = pieceSequence[index];
+			char tmp = pieceSequence[index];
 			pieceSequence[index] = pieceSequence[i];
 			pieceSequence[i] = tmp;
 		}
