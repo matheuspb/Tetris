@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.Timer;
 
@@ -14,7 +15,7 @@ public class Board implements ActionListener {
 	private Timer timer;
 
 	String[] pieceSequence;
-	int i;
+	int index;
 
 	public Board() {
 		matrix = new Block[20][10];
@@ -32,52 +33,67 @@ public class Board implements ActionListener {
 		pieceSequence[4] = "Z";
 		pieceSequence[5] = "T";
 		pieceSequence[6] = "O";
-		i = 0;
+		index = 0;
 	}
 
 	public void init() {
 		timer.start();
-		generateNextPiece();
+		shuffleSequence();
+		generatePiece();
 	}
 
-	private void generateNextPiece() {
-		if (pieceSequence[i].equals("I")) {
+	private void generatePiece() {
+		if (pieceSequence[index].equals("I")) {
 			matrix[0][3].init();
 			matrix[0][4].init();
 			matrix[0][5].init();
 			matrix[0][6].init();
-		} else if (pieceSequence[i].equals("J")) {
+		} else if (pieceSequence[index].equals("J")) {
 			matrix[0][3].init();
 			matrix[1][3].init();
 			matrix[1][4].init();
 			matrix[1][5].init();
-		} else if (pieceSequence[i].equals("L")) {
+		} else if (pieceSequence[index].equals("L")) {
 			matrix[0][5].init();
 			matrix[1][3].init();
 			matrix[1][4].init();
 			matrix[1][5].init();
-		} else if (pieceSequence[i].equals("S")) {
+		} else if (pieceSequence[index].equals("S")) {
 			matrix[0][5].init();
 			matrix[0][4].init();
 			matrix[1][4].init();
 			matrix[1][3].init();
-		} else if (pieceSequence[i].equals("Z")) {
+		} else if (pieceSequence[index].equals("Z")) {
 			matrix[0][3].init();
 			matrix[0][4].init();
 			matrix[1][4].init();
 			matrix[1][5].init();
-		} else if (pieceSequence[i].equals("T")) {
+		} else if (pieceSequence[index].equals("T")) {
 			matrix[0][4].init();
 			matrix[1][3].init();
 			matrix[1][4].init();
 			matrix[1][5].init();
-		} else if (pieceSequence[i].equals("0")) {
+		} else if (pieceSequence[index].equals("O")) {
 			matrix[0][4].init();
-			matrix[0][4].init();
-			matrix[1][5].init();
+			matrix[0][5].init();
+			matrix[1][4].init();
 			matrix[1][5].init();
 		}
-		i++;
+		if (index == 6) {
+			shuffleSequence();
+			index = 0;
+		}
+		index++;
+	}
+
+	public void shuffleSequence() {
+		Random rnd = new Random();
+		for (int i = 0; i < pieceSequence.length - 1; i++) {
+			int index = rnd.nextInt(pieceSequence.length);
+			String tmp = pieceSequence[index];
+			pieceSequence[index] = pieceSequence[i];
+			pieceSequence[i] = tmp;
+		}
 	}
 
 	public void moveToLeft() {
@@ -249,7 +265,7 @@ public class Board implements ActionListener {
 		}
 		if (collided) {
 			clearFullLines();
-			generateNextPiece();
+			generatePiece();
 		}
 	}
 
