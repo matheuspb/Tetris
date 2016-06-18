@@ -43,6 +43,11 @@ public class Board implements ActionListener {
 	}
 
 	private void generatePiece() {
+		/*
+		 * Gets wich piece needs to be generated from 'pieceSequence', and
+		 * generates it. When it reaches the end of 'pieceSequence', it calls
+		 * shuffleSequence() to regenerate the pattern.
+		 */
 		if (pieceSequence[index].equals("I")) {
 			matrix[0][3].init();
 			matrix[0][4].init();
@@ -87,8 +92,10 @@ public class Board implements ActionListener {
 	}
 
 	public void shuffleSequence() {
+		// Uses Random() to shuffle the array pieceSequence.
 		Random rnd = new Random();
 		for (int i = 0; i < pieceSequence.length - 1; i++) {
+			// Generates a random index, and then switches with the element at i
 			int index = rnd.nextInt(pieceSequence.length);
 			String tmp = pieceSequence[index];
 			pieceSequence[index] = pieceSequence[i];
