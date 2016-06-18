@@ -155,18 +155,6 @@ public class Board implements ActionListener {
 		}
 	}
 
-	private boolean detectCollision(int i, int j) {
-		/*
-		 * Returns true if block is at last line or there is another block under
-		 * it
-		 */
-		if (i == matrix.length - 1 || matrix[i + 1][j].show()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	private boolean canMoveRight() {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
@@ -191,6 +179,20 @@ public class Board implements ActionListener {
 									.show())) {
 						return false;
 					}
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean canMoveDown() {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				if (matrix[i][j].moving()) {
+					if (i == 19
+							|| (!matrix[i + 1][j].moving() && matrix[i + 1][j]
+									.show()))
+						return false;
 				}
 			}
 		}
@@ -256,21 +258,12 @@ public class Board implements ActionListener {
 	}
 
 	private void update() {
-		boolean collided = false;
-		for (int i = matrix.length - 1; i >= 0; i--) {
-			for (int j = matrix[0].length - 1; j >= 0; j--) {
-				if (matrix[i][j].moving() && detectCollision(i, j)) {
-					collided = true;
-					break;
-				}
-			}
-			if (collided) {
-				stopAll();
-			} else {
+		if (canMoveDown()) {
+			for (int i = matrix.length - 1; i >= 0; i--) {
 				moveLineDown(i, false);
 			}
-		}
-		if (collided) {
+		} else {
+			stopAll();
 			clearFullLines();
 			generatePiece();
 		}
