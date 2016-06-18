@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -41,8 +42,12 @@ public class Panel extends JPanel {
 			for (int j = 0; j < matrix[0].length; j++) {
 				if (matrix[i][j]) {
 					// Draws the block image at (i, j) coordinate.
-					g.drawImage(block, BLOCK_SIZE * j, BLOCK_SIZE * i,
-							BLOCK_SIZE, BLOCK_SIZE, this);
+					g.setColor(Color.RED);
+					g.fillRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+							BLOCK_SIZE);
+					g.setColor(Color.BLACK);
+					g.drawRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+							BLOCK_SIZE);
 				}
 			}
 		}
