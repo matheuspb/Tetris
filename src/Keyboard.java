@@ -19,10 +19,11 @@ public class Keyboard implements KeyListener {
 	}
 
 	public void keyReleased(KeyEvent event) {
-		
+
 	}
 
 	public void keyTyped(KeyEvent event) {
+
 	}
 
 }

@@ -13,6 +13,9 @@ public class Board implements ActionListener {
 	private Block[][] matrix;
 	private Timer timer;
 
+	String[] pieceSequence;
+	int i;
+
 	public Board() {
 		matrix = new Block[20][10];
 		for (int i = 0; i < matrix.length; i++) {
@@ -20,16 +23,61 @@ public class Board implements ActionListener {
 				matrix[i][j] = new Block(false, false);
 			}
 		}
-		timer = new Timer(1000, this);
+		timer = new Timer(500, this);
+		pieceSequence = new String[7];
+		pieceSequence[0] = "I";
+		pieceSequence[1] = "J";
+		pieceSequence[2] = "L";
+		pieceSequence[3] = "S";
+		pieceSequence[4] = "Z";
+		pieceSequence[5] = "T";
+		pieceSequence[6] = "O";
+		i = 0;
 	}
 
 	public void init() {
-		matrix[0][1].init();
-		matrix[1][1].init();
-		matrix[2][1].init();
-		matrix[3][1].init();
-
 		timer.start();
+		generateNextPiece();
+	}
+
+	private void generateNextPiece() {
+		if (pieceSequence[i].equals("I")) {
+			matrix[0][3].init();
+			matrix[0][4].init();
+			matrix[0][5].init();
+			matrix[0][6].init();
+		} else if (pieceSequence[i].equals("J")) {
+			matrix[0][3].init();
+			matrix[1][3].init();
+			matrix[1][4].init();
+			matrix[1][5].init();
+		} else if (pieceSequence[i].equals("L")) {
+			matrix[0][5].init();
+			matrix[1][3].init();
+			matrix[1][4].init();
+			matrix[1][5].init();
+		} else if (pieceSequence[i].equals("S")) {
+			matrix[0][5].init();
+			matrix[0][4].init();
+			matrix[1][4].init();
+			matrix[1][3].init();
+		} else if (pieceSequence[i].equals("Z")) {
+			matrix[0][3].init();
+			matrix[0][4].init();
+			matrix[1][4].init();
+			matrix[1][5].init();
+		} else if (pieceSequence[i].equals("T")) {
+			matrix[0][4].init();
+			matrix[1][3].init();
+			matrix[1][4].init();
+			matrix[1][5].init();
+		} else if (pieceSequence[i].equals("0")) {
+			matrix[0][4].init();
+			matrix[0][4].init();
+			matrix[1][5].init();
+			matrix[1][5].init();
+		}
+		i++;
 	}
 
 	public void moveToLeft() {
@@ -195,13 +243,13 @@ public class Board implements ActionListener {
 			}
 			if (collided) {
 				stopAll();
-				init();
 			} else {
 				moveLineDown(i, false);
 			}
 		}
 		if (collided) {
 			clearFullLines();
+			generateNextPiece();
 		}
 	}
 
