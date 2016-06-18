@@ -33,18 +33,54 @@ public class Panel extends JPanel {
 		this.repaint();
 	}
 
+	private void drawGrid(Graphics g) {
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 10; j++) {
+				g.setColor(Color.LIGHT_GRAY);
+				g.drawRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+						BLOCK_SIZE);
+			}
+		}
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		// Draws block images on the correct positions based on board.matrix()
 		super.paintComponent(g);
-		boolean[][] matrix = board.matrix(); // See matrix() method in Board
+		drawGrid(g);
+		char[][] matrix = board.matrix(); // See matrix() method in Board
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				if (matrix[i][j]) {
-					// Draws the block image at (i, j) coordinate.
-					g.setColor(Color.RED);
-					g.fillRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
-							BLOCK_SIZE);
+				if (matrix[i][j] != '.') {
+					if (matrix[i][j] == 'I') {
+						g.setColor(Color.BLUE);
+						g.fillRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+								BLOCK_SIZE);
+					} else if (matrix[i][j] == 'J') {
+						g.setColor(Color.GREEN);
+						g.fillRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+								BLOCK_SIZE);
+					} else if (matrix[i][j] == 'L') {
+						g.setColor(Color.CYAN);
+						g.fillRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+								BLOCK_SIZE);
+					} else if (matrix[i][j] == 'S') {
+						g.setColor(Color.RED);
+						g.fillRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+								BLOCK_SIZE);
+					} else if (matrix[i][j] == 'Z') {
+						g.setColor(Color.MAGENTA);
+						g.fillRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+								BLOCK_SIZE);
+					} else if (matrix[i][j] == 'T') {
+						g.setColor(Color.PINK);
+						g.fillRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+								BLOCK_SIZE);
+					} else if (matrix[i][j] == 'O') {
+						g.setColor(Color.YELLOW);
+						g.fillRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
+								BLOCK_SIZE);
+					}
 					g.setColor(Color.BLACK);
 					g.drawRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
 							BLOCK_SIZE);

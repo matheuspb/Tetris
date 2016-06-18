@@ -49,40 +49,40 @@ public class Board implements ActionListener {
 		 * shuffleSequence() to regenerate the pattern.
 		 */
 		if (pieceSequence[index] == 'I') {
-			matrix[0][3].init();
-			matrix[0][4].init();
-			matrix[0][5].init();
-			matrix[0][6].init();
+			matrix[0][3].init('I');
+			matrix[0][4].init('I');
+			matrix[0][5].init('I');
+			matrix[0][6].init('I');
 		} else if (pieceSequence[index] == 'J') {
-			matrix[0][3].init();
-			matrix[1][3].init();
-			matrix[1][4].init();
-			matrix[1][5].init();
+			matrix[0][3].init('J');
+			matrix[1][3].init('J');
+			matrix[1][4].init('J');
+			matrix[1][5].init('J');
 		} else if (pieceSequence[index] == 'L') {
-			matrix[0][5].init();
-			matrix[1][3].init();
-			matrix[1][4].init();
-			matrix[1][5].init();
+			matrix[0][5].init('L');
+			matrix[1][3].init('L');
+			matrix[1][4].init('L');
+			matrix[1][5].init('L');
 		} else if (pieceSequence[index] == 'S') {
-			matrix[0][5].init();
-			matrix[0][4].init();
-			matrix[1][4].init();
-			matrix[1][3].init();
+			matrix[0][5].init('S');
+			matrix[0][4].init('S');
+			matrix[1][4].init('S');
+			matrix[1][3].init('S');
 		} else if (pieceSequence[index] == 'Z') {
-			matrix[0][3].init();
-			matrix[0][4].init();
-			matrix[1][4].init();
-			matrix[1][5].init();
+			matrix[0][3].init('Z');
+			matrix[0][4].init('Z');
+			matrix[1][4].init('Z');
+			matrix[1][5].init('Z');
 		} else if (pieceSequence[index] == 'T') {
-			matrix[0][4].init();
-			matrix[1][3].init();
-			matrix[1][4].init();
-			matrix[1][5].init();
+			matrix[0][4].init('T');
+			matrix[1][3].init('T');
+			matrix[1][4].init('T');
+			matrix[1][5].init('T');
 		} else if (pieceSequence[index] == 'O') {
-			matrix[0][4].init();
-			matrix[0][5].init();
-			matrix[1][4].init();
-			matrix[1][5].init();
+			matrix[0][4].init('O');
+			matrix[0][5].init('O');
+			matrix[1][4].init('O');
+			matrix[1][5].init('O');
 		}
 		if (index == 6) {
 			shuffleSequence();
@@ -243,15 +243,15 @@ public class Board implements ActionListener {
 		}
 	}
 
-	public boolean[][] matrix() {
+	public char[][] matrix() {
 		/*
-		 * Returns a 2D array of booleans. It holds true when you need to show a
-		 * block at (i, j) coordinate of the grid.
+		 * Returns a 2D array of chars. It holds the type of block, depending of
+		 * the shape it makes.
 		 */
-		boolean[][] out = new boolean[20][10];
+		char[][] out = new char[20][10];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				out[i][j] = matrix[i][j].show();
+				out[i][j] = matrix[i][j].type();
 			}
 		}
 		return out;
