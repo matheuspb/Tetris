@@ -123,6 +123,16 @@ public class Board implements ActionListener {
 		}
 	}
 
+	public void moveToBottom() {
+		if(canMoveDown()) {
+			for (int i = matrix.length - 1; i >= 0; i--) {
+				for (int j = 0; j < matrix[0].length; j++) {
+					moveDown(i, j, false);
+				}
+			}
+		}
+	}
+
 	private void debug() {
 		String text = "";
 		for (int i = 0; i < matrix.length; i++) {
@@ -262,7 +272,8 @@ public class Board implements ActionListener {
 			for (int i = matrix.length - 1; i >= 0; i--) {
 				moveLineDown(i, false);
 			}
-		} else {
+		}
+		else {
 			stopAll();
 			clearFullLines();
 			generatePiece();
