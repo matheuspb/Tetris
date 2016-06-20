@@ -123,20 +123,6 @@ public class Board implements ActionListener {
 		}
 	}
 
-	private void debug() {
-		String text = "";
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				if (matrix[i][j].show())
-					text += "1";
-				else
-					text += "0";
-			}
-			text += "\n";
-		}
-		System.out.println(text);
-	}
-
 	private void moveDown(int i, int j, boolean force) {
 		/*
 		 * Moves down the block at i j position. If force is false, it will only
@@ -272,7 +258,6 @@ public class Board implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		update();
-		// debug();
 	}
 
 }

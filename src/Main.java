@@ -10,8 +10,9 @@ public class Main {
 		Keyboard keyboard = new Keyboard(board);
 
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.getContentPane().setPreferredSize(new Dimension(300, 600));
-		window.setResizable(true);
+		window.getContentPane().setPreferredSize(
+				new Dimension(Panel.BLOCK_SIZE * 10, Panel.BLOCK_SIZE * 20));
+		window.setResizable(false);
 
 		Panel pan = new Panel(board);
 		window.add(pan);
