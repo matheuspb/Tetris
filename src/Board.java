@@ -127,28 +127,17 @@ public class Board implements ActionListener {
 		if (canMoveDown()) {
 			for (int i = matrix.length - 1; i >= 0; i--) {
 				for (int j = 0; j < matrix[0].length; j++) {
-					moveDown(i, j, false);
+					if (matrix[i][j].moving())
+						moveOneBlockDown(i, j);
 				}
 			}
 		}
 	}
 
-	private void moveDown(int i, int j, boolean force) {
-		/*
-		 * Moves down the block at i j position. If force is false, it will only
-		 * move the blocks with moving() == true.
-		 */
-		if (matrix[i][j].moving() || force) {
-			matrix[i + 1][j] = matrix[i][j];
-			matrix[i][j] = new Block(false, false);
-		}
-	}
-
-	private void moveLineDown(int n, boolean force) {
-		// Moves all blocks at line n down
-		for (int i = 0; i < matrix[0].length; i++) {
-			moveDown(n, i, force);
-		}
+	private void moveOneBlockDown(int i, int j) {
+		// Moves down the block at i j position.
+		matrix[i + 1][j] = matrix[i][j];
+		matrix[i][j] = new Block(false, false);
 	}
 
 	private boolean canMoveRight() {
@@ -227,7 +216,9 @@ public class Board implements ActionListener {
 	private void clearLine(int n) {
 		// Clears line n, then moves all other lines above down
 		for (int i = n - 1; i >= 0; i--) {
-			moveLineDown(i, true);
+			for (int j = 0; j < matrix[0].length; j++) {
+				moveOneBlockDown(i, j);
+			}
 		}
 	}
 
@@ -266,9 +257,7 @@ public class Board implements ActionListener {
 
 	private void update() {
 		if (canMoveDown()) {
-			for (int i = matrix.length - 1; i >= 0; i--) {
-				moveLineDown(i, false);
-			}
+			moveToBottom();
 		} else {
 			stopAll();
 			clearFullLines();
