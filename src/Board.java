@@ -267,15 +267,24 @@ public class Board implements ActionListener {
 		return out;
 	}
 
+	private boolean gameOver() {
+		for(int i = 0; i < matrix[0].length; i++) {
+			if(matrix[0][i].show() && !matrix[0][i].moving()) { return true; }
+		}
+		return false;
+	}
+
 	private void update() {
 		if (canMoveDown()) {
 			for (int i = matrix.length - 1; i >= 0; i--) {
 				moveLineDown(i, false);
 			}
-		}
-		else {
+		} else {
 			stopAll();
 			clearFullLines();
+			if(gameOver()) {
+				return;
+			}
 			generatePiece();
 		}
 	}
