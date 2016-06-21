@@ -12,6 +12,7 @@ public class Main {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.getContentPane().setPreferredSize(new Dimension(300, 600));
 		window.setResizable(true);
+		window.setTitle("Tetris");
 
 		Panel pan = new Panel(board);
 		window.add(pan);

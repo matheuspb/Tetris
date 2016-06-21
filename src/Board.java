@@ -91,6 +91,7 @@ public class Board implements ActionListener {
 		index++;
 	}
 
+
 	public void shuffleSequence() {
 		// Uses Random() to shuffle the array pieceSequence.
 		Random rnd = new Random();
@@ -131,20 +132,6 @@ public class Board implements ActionListener {
 				}
 			}
 		}
-	}
-
-	private void debug() {
-		String text = "";
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				if (matrix[i][j].show())
-					text += "1";
-				else
-					text += "0";
-			}
-			text += "\n";
-		}
-		System.out.println(text);
 	}
 
 	private void moveDown(int i, int j, boolean force) {
@@ -210,6 +197,7 @@ public class Board implements ActionListener {
 	}
 
 	private void moveOneBlock(int i, int j, boolean right) {
+		// Move just one block to right(right == true) or left(right == false).
 		if (right && matrix[i][j].moving()) {
 			matrix[i][j + 1] = matrix[i][j];
 			matrix[i][j] = new Block(false, false);
@@ -268,6 +256,7 @@ public class Board implements ActionListener {
 	}
 
 	private boolean gameOver() {
+		// Check if the pieces can still move or they hit the top of the window.
 		for(int i = 0; i < matrix[0].length; i++) {
 			if(matrix[0][i].show() && !matrix[0][i].moving()) { return true; }
 		}
@@ -292,7 +281,6 @@ public class Board implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		update();
-		// debug();
 	}
 
 }
