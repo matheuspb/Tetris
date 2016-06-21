@@ -18,7 +18,7 @@ public class Board implements ActionListener {
 	int index;
 
 	public Board() {
-		matrix = new Block[20][10];
+		matrix = new Block[21][10];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				matrix[i][j] = new Block(false, false);
@@ -123,6 +123,16 @@ public class Board implements ActionListener {
 		}
 	}
 
+	public void moveToBottom() {
+		if (canMoveDown()) {
+			for (int i = matrix.length - 1; i >= 0; i--) {
+				for (int j = 0; j < matrix[0].length; j++) {
+					moveDown(i, j, false);
+				}
+			}
+		}
+	}
+
 	private void moveDown(int i, int j, boolean force) {
 		/*
 		 * Moves down the block at i j position. If force is false, it will only
@@ -175,7 +185,7 @@ public class Board implements ActionListener {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				if (matrix[i][j].moving()) {
-					if (i == 19
+					if (i == 20
 							|| (!matrix[i + 1][j].moving() && matrix[i + 1][j]
 									.show()))
 						return false;
@@ -186,6 +196,7 @@ public class Board implements ActionListener {
 	}
 
 	private void moveOneBlock(int i, int j, boolean right) {
+		// Move just one block to right(right == true) or left(right == false).
 		if (right && matrix[i][j].moving()) {
 			matrix[i][j + 1] = matrix[i][j];
 			matrix[i][j] = new Block(false, false);
@@ -235,12 +246,22 @@ public class Board implements ActionListener {
 		 * the shape it makes.
 		 */
 		char[][] out = new char[20][10];
-		for (int i = 0; i < matrix.length; i++) {
+		for (int i = 1; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				out[i][j] = matrix[i][j].type();
+				out[i - 1][j] = matrix[i][j].type();
 			}
 		}
 		return out;
+	}
+
+	private boolean gameOver() {
+		// Check if the pieces can still move or they hit the top of the window.
+		for (int i = 0; i < matrix[0].length; i++) {
+			if (matrix[1][i].show() && !matrix[1][i].moving()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void update() {
@@ -251,6 +272,9 @@ public class Board implements ActionListener {
 		} else {
 			stopAll();
 			clearFullLines();
+			if (gameOver()) {
+				return;
+			}
 			generatePiece();
 		}
 	}

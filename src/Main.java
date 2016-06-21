@@ -13,6 +13,7 @@ public class Main {
 		window.getContentPane().setPreferredSize(
 				new Dimension(Panel.BLOCK_SIZE * 10, Panel.BLOCK_SIZE * 20));
 		window.setResizable(false);
+		window.setTitle("Tetris");
 
 		Panel pan = new Panel(board);
 		window.add(pan);

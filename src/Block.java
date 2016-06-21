@@ -33,7 +33,7 @@ public class Block {
 	public boolean moving() {
 		return moving;
 	}
-	
+
 	public char type() {
 		return type;
 	}
