@@ -17,6 +17,10 @@ public class Board implements ActionListener {
 	char[] pieceSequence;
 	int index;
 
+	int currentJ, currentI;
+
+	char currentPiece;
+
 	public Board() {
 		matrix = new Block[21][10];
 		for (int i = 0; i < matrix.length; i++) {
@@ -34,6 +38,9 @@ public class Board implements ActionListener {
 		pieceSequence[5] = 'T';
 		pieceSequence[6] = 'O';
 		index = 0;
+		currentJ = 0;
+		currentI = 0;
+		currentPiece = '.';
 	}
 
 	public void init() {
@@ -49,41 +56,50 @@ public class Board implements ActionListener {
 		 * shuffleSequence() to regenerate the pattern.
 		 */
 		if (pieceSequence[index] == 'I') {
-			matrix[0][3].init('I');
-			matrix[0][4].init('I');
-			matrix[0][5].init('I');
-			matrix[0][6].init('I');
+			matrix[1][3].init('I');
+			matrix[1][4].init('I');
+			matrix[1][5].init('I');
+			matrix[1][6].init('I');
+			currentPiece = 'I';
 		} else if (pieceSequence[index] == 'J') {
 			matrix[0][3].init('J');
 			matrix[1][3].init('J');
 			matrix[1][4].init('J');
 			matrix[1][5].init('J');
+			currentPiece = 'J';
 		} else if (pieceSequence[index] == 'L') {
 			matrix[0][5].init('L');
 			matrix[1][3].init('L');
 			matrix[1][4].init('L');
 			matrix[1][5].init('L');
+			currentPiece = 'L';
 		} else if (pieceSequence[index] == 'S') {
 			matrix[0][5].init('S');
 			matrix[0][4].init('S');
 			matrix[1][4].init('S');
 			matrix[1][3].init('S');
+			currentPiece = 'S';
 		} else if (pieceSequence[index] == 'Z') {
 			matrix[0][3].init('Z');
 			matrix[0][4].init('Z');
 			matrix[1][4].init('Z');
 			matrix[1][5].init('Z');
+			currentPiece = 'Z';
 		} else if (pieceSequence[index] == 'T') {
 			matrix[0][4].init('T');
 			matrix[1][3].init('T');
 			matrix[1][4].init('T');
 			matrix[1][5].init('T');
+			currentPiece = 'Z';
 		} else if (pieceSequence[index] == 'O') {
 			matrix[0][4].init('O');
 			matrix[0][5].init('O');
 			matrix[1][4].init('O');
 			matrix[1][5].init('O');
+			currentPiece = 'O';
 		}
+		currentJ = 3;
+		currentI = 0;
 		if (index == 6) {
 			shuffleSequence();
 			index = 0;
@@ -110,6 +126,7 @@ public class Board implements ActionListener {
 					moveOneBlock(i, j, false);
 				}
 			}
+			currentJ--;
 		}
 	}
 
@@ -120,6 +137,7 @@ public class Board implements ActionListener {
 					moveOneBlock(i, j, true);
 				}
 			}
+			currentJ++;
 		}
 	}
 
@@ -131,6 +149,7 @@ public class Board implements ActionListener {
 						moveOneBlockDown(i, j);
 				}
 			}
+			currentI++;
 		}
 	}
 
@@ -192,6 +211,56 @@ public class Board implements ActionListener {
 		} else if (matrix[i][j].moving()) {
 			matrix[i][j - 1] = matrix[i][j];
 			matrix[i][j] = new Block(false, false);
+		}
+	}
+
+	public void rotate() {
+		if (currentPiece == 'O')
+			return;
+		if (canRotate()) {
+			if (currentJ == -1) {
+				moveToRight();
+			} else if (currentJ == 8) {
+				moveToLeft();
+			}
+
+			Block tmp = matrix[0 + currentI][0 + currentJ];
+			matrix[0 + currentI][0 + currentJ] = matrix[2 + currentI][0 + currentJ];
+			matrix[2 + currentI][0 + currentJ] = matrix[2 + currentI][2 + currentJ];
+			matrix[2 + currentI][2 + currentJ] = matrix[0 + currentI][2 + currentJ];
+			matrix[0 + currentI][2 + currentJ] = tmp;
+
+			tmp = matrix[0 + currentI][1 + currentJ];
+			matrix[0 + currentI][1 + currentJ] = matrix[1 + currentI][0 + currentJ];
+			matrix[1 + currentI][0 + currentJ] = matrix[2 + currentI][1 + currentJ];
+			matrix[2 + currentI][1 + currentJ] = matrix[1 + currentI][2 + currentJ];
+			matrix[1 + currentI][2 + currentJ] = tmp;
+
+			if (currentPiece == 'I') {
+				tmp = matrix[1 + currentI][3 + currentJ];
+				matrix[1 + currentI][3 + currentJ] = matrix[3 + currentI][1 + currentJ];
+				matrix[3 + currentI][1 + currentJ] = tmp;
+			}
+		}
+	}
+
+	private boolean canRotate() {
+		if (currentPiece == 'I') {
+			for (int i = currentI; i < currentI + 4; i++) {
+				for (int j = currentJ; j < currentJ + 4; j++) {
+					if (matrix[i][j].show() && !matrix[i][j].moving())
+						return false;
+				}
+			}
+			return true;
+		} else {
+			for (int i = currentI; i < currentI + 3; i++) {
+				for (int j = currentJ; j < currentJ + 3; j++) {
+					if (matrix[i][j].show() && !matrix[i][j].moving())
+						return false;
+				}
+			}
+			return true;
 		}
 	}
 
