@@ -20,7 +20,7 @@ public class Keyboard implements KeyListener {
 			board.moveToBottom();
 		}
 		if (event.getKeyCode() == KeyEvent.VK_SPACE) {
-
+			board.hardDrop();
 		}
 	}
 

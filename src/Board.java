@@ -139,6 +139,12 @@ public class Board implements ActionListener {
 		matrix[i + 1][j] = matrix[i][j];
 		matrix[i][j] = new Block(false, false);
 	}
+	
+	public void hardDrop() {
+		while (canMoveDown()) {
+			moveToBottom();
+		}
+	}
 
 	private boolean canMoveRight() {
 		for (int i = 0; i < matrix.length; i++) {
