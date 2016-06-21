@@ -19,6 +19,9 @@ public class Keyboard implements KeyListener {
 		if (event.getKeyCode() == KeyEvent.VK_DOWN) {
 			board.moveToBottom();
 		}
+		if (event.getKeyCode() == KeyEvent.VK_SPACE) {
+
+		}
 	}
 
 	public void keyReleased(KeyEvent event) {

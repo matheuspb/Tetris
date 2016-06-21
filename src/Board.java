@@ -18,7 +18,7 @@ public class Board implements ActionListener {
 	int index;
 
 	public Board() {
-		matrix = new Block[20][10];
+		matrix = new Block[21][10];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				matrix[i][j] = new Block(false, false);
@@ -186,7 +186,7 @@ public class Board implements ActionListener {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				if (matrix[i][j].moving()) {
-					if (i == 19
+					if (i == 20
 							|| (!matrix[i + 1][j].moving() && matrix[i + 1][j]
 									.show()))
 						return false;
@@ -247,9 +247,9 @@ public class Board implements ActionListener {
 		 * the shape it makes.
 		 */
 		char[][] out = new char[20][10];
-		for (int i = 0; i < matrix.length; i++) {
+		for (int i = 1; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				out[i][j] = matrix[i][j].type();
+				out[i-1][j] = matrix[i][j].type();
 			}
 		}
 		return out;
@@ -258,7 +258,7 @@ public class Board implements ActionListener {
 	private boolean gameOver() {
 		// Check if the pieces can still move or they hit the top of the window.
 		for(int i = 0; i < matrix[0].length; i++) {
-			if(matrix[0][i].show() && !matrix[0][i].moving()) { return true; }
+			if(matrix[1][i].show() && !matrix[1][i].moving()) { return true; }
 		}
 		return false;
 	}
