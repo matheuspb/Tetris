@@ -214,54 +214,61 @@ public class Board implements ActionListener {
 		}
 	}
 
+	private void rotatePiece(int i, int j) {
+		Block tmp = new Block();
+
+		tmp = matrix[0 + i][0 + j];
+		matrix[0 + i][0 + j] = matrix[2 + i][0 + j];
+		matrix[2 + i][0 + j] = matrix[2 + i][2 + j];
+		matrix[2 + i][2 + j] = matrix[0 + i][2 + j];
+		matrix[0 + i][2 + j] = tmp;
+
+		tmp = matrix[0 + i][1 + j];
+		matrix[0 + i][1 + j] = matrix[1 + i][0 + j];
+		matrix[1 + i][0 + j] = matrix[2 + i][1 + j];
+		matrix[2 + i][1 + j] = matrix[1 + i][2 + j];
+		matrix[1 + i][2 + j] = tmp;
+
+		if (currentPiece == 'I') {
+			tmp = matrix[1 + i][3 + j];
+			matrix[1 + i][3 + j] = matrix[3 + i][1 + j];
+			matrix[3 + i][1 + j] = tmp;
+		}
+	}
+
 	public void rotate() {
 		if (currentPiece == 'O')
 			return;
+
+		if (currentJ == -1) {
+			moveToRight();
+		} else if (currentJ == 8) {
+			moveToLeft();
+		}
+
 		if (canRotate()) {
-			if (currentJ == -1) {
-				moveToRight();
-			} else if (currentJ == 8) {
-				moveToLeft();
-			}
-
-			Block tmp = matrix[0 + currentI][0 + currentJ];
-			matrix[0 + currentI][0 + currentJ] = matrix[2 + currentI][0 + currentJ];
-			matrix[2 + currentI][0 + currentJ] = matrix[2 + currentI][2 + currentJ];
-			matrix[2 + currentI][2 + currentJ] = matrix[0 + currentI][2 + currentJ];
-			matrix[0 + currentI][2 + currentJ] = tmp;
-
-			tmp = matrix[0 + currentI][1 + currentJ];
-			matrix[0 + currentI][1 + currentJ] = matrix[1 + currentI][0 + currentJ];
-			matrix[1 + currentI][0 + currentJ] = matrix[2 + currentI][1 + currentJ];
-			matrix[2 + currentI][1 + currentJ] = matrix[1 + currentI][2 + currentJ];
-			matrix[1 + currentI][2 + currentJ] = tmp;
-
-			if (currentPiece == 'I') {
-				tmp = matrix[1 + currentI][3 + currentJ];
-				matrix[1 + currentI][3 + currentJ] = matrix[3 + currentI][1 + currentJ];
-				matrix[3 + currentI][1 + currentJ] = tmp;
-			}
+			rotatePiece(currentI, currentJ);
 		}
 	}
 
 	private boolean canRotate() {
+		int offset = 3;
 		if (currentPiece == 'I') {
-			for (int i = currentI; i < currentI + 4; i++) {
-				for (int j = currentJ; j < currentJ + 4; j++) {
-					if (matrix[i][j].show() && !matrix[i][j].moving())
-						return false;
-				}
-			}
-			return true;
-		} else {
-			for (int i = currentI; i < currentI + 3; i++) {
-				for (int j = currentJ; j < currentJ + 3; j++) {
-					if (matrix[i][j].show() && !matrix[i][j].moving())
-						return false;
-				}
-			}
-			return true;
+			offset = 4;
 		}
+
+		if (currentJ + offset > 10 || currentJ < 0) {
+			return false;
+		}
+
+		for (int i = currentI; i < currentI + offset; i++) {
+			for (int j = currentJ; j < currentJ + offset; j++) {
+				if (matrix[i][j].show() && !matrix[i][j].moving())
+					return false;
+			}
+		}
+		return true;
+
 	}
 
 	private void stopAll() {
