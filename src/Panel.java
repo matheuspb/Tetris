@@ -20,20 +20,13 @@ public class Panel extends JPanel {
 	public Panel(Board board) {
 		super();
 		try {
-			File file = new File("resources/blue.png");
-			blue = ImageIO.read(file);
-			file = new File("resources/cyan.png");
-			cyan = ImageIO.read(file);
-			file = new File("resources/green.png");
-			green = ImageIO.read(file);
-			file = new File("resources/magenta.png");
-			magenta = ImageIO.read(file);
-			file = new File("resources/orange.png");
-			orange = ImageIO.read(file);
-			file = new File("resources/red.png");
-			red = ImageIO.read(file);
-			file = new File("resources/yellow.png");
-			yellow = ImageIO.read(file);
+			blue = ImageIO.read(new File("resources/blue.png"));
+			cyan = ImageIO.read(new File("resources/cyan.png"));
+			green = ImageIO.read(new File("resources/green.png"));
+			magenta = ImageIO.read(new File("resources/magenta.png"));
+			orange = ImageIO.read(new File("resources/orange.png"));
+			red = ImageIO.read(new File("resources/red.png"));
+			yellow = ImageIO.read(new File("resources/yellow.png"));
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -46,6 +39,7 @@ public class Panel extends JPanel {
 	}
 
 	private void drawGrid(Graphics g) {
+		// Draws the grid behind the pieces
 		for (int i = 0; i < 20; i++) {
 			for (int j = 0; j < 10; j++) {
 				g.setColor(Color.LIGHT_GRAY);
@@ -56,6 +50,7 @@ public class Panel extends JPanel {
 	}
 
 	private void drawBlock(Graphics g, int i, int j, Image img) {
+		// Draws a block on the correct position of the panel
 		g.drawImage(img, BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
 				BLOCK_SIZE, this);
 	}
@@ -68,22 +63,20 @@ public class Panel extends JPanel {
 		char[][] matrix = board.matrix(); // See matrix() method in Board
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				if (matrix[i][j] != '.') {
-					if (matrix[i][j] == 'I') {
-						drawBlock(g, i, j, cyan);
-					} else if (matrix[i][j] == 'J') {
-						drawBlock(g, i, j, blue);
-					} else if (matrix[i][j] == 'L') {
-						drawBlock(g, i, j, orange);
-					} else if (matrix[i][j] == 'S') {
-						drawBlock(g, i, j, green);
-					} else if (matrix[i][j] == 'Z') {
-						drawBlock(g, i, j, red);
-					} else if (matrix[i][j] == 'T') {
-						drawBlock(g, i, j, magenta);
-					} else if (matrix[i][j] == 'O') {
-						drawBlock(g, i, j, yellow);
-					}
+				if (matrix[i][j] == 'I') {
+					drawBlock(g, i, j, cyan);
+				} else if (matrix[i][j] == 'J') {
+					drawBlock(g, i, j, blue);
+				} else if (matrix[i][j] == 'L') {
+					drawBlock(g, i, j, orange);
+				} else if (matrix[i][j] == 'S') {
+					drawBlock(g, i, j, green);
+				} else if (matrix[i][j] == 'Z') {
+					drawBlock(g, i, j, red);
+				} else if (matrix[i][j] == 'T') {
+					drawBlock(g, i, j, magenta);
+				} else if (matrix[i][j] == 'O') {
+					drawBlock(g, i, j, yellow);
 				}
 			}
 		}
