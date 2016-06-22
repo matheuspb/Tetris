@@ -16,6 +16,12 @@ public class Block {
 		this.type = '.';
 	}
 
+	public Block(boolean show, boolean moving, char type) {
+		this.show = show;
+		this.moving = moving;
+		this.type = type;
+	}
+
 	public void init(char type) {
 		this.moving = true;
 		this.show = true;
@@ -36,6 +42,11 @@ public class Block {
 
 	public char type() {
 		return type;
+	}
+
+	@Override
+	public Block clone() {
+		return new Block(this.show, this.moving, this.type);
 	}
 
 }

@@ -22,6 +22,9 @@ public class Keyboard implements KeyListener {
 		if (event.getKeyCode() == KeyEvent.VK_SPACE) {
 			board.hardDrop();
 		}
+		if (event.getKeyCode() == KeyEvent.VK_UP) {
+			board.rotate();
+		}
 	}
 
 	public void keyReleased(KeyEvent event) {
