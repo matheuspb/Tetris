@@ -163,6 +163,7 @@ public class Board implements ActionListener {
 		while (canMoveDown()) {
 			moveToBottom();
 		}
+		update();
 	}
 
 	private boolean canMoveRight() {
@@ -249,6 +250,12 @@ public class Board implements ActionListener {
 		if (currentJ == -1) {
 			moveToRight();
 		} else if (currentJ == 8) {
+			moveToLeft();
+			if (currentPiece == 'I')
+				moveToLeft();
+		}
+		
+		if (currentJ == 7 && currentPiece == 'I') {
 			moveToLeft();
 		}
 
@@ -339,20 +346,20 @@ public class Board implements ActionListener {
 
 	private void update() {
 		if (canMoveDown()) {
-			moveToBottom();
+			//moveToBottom();
 		} else {
 			stopAll();
 			clearFullLines();
-			if (gameOver()) {
+			if (gameOver())
 				return;
-			}
 			generatePiece();
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		update();
+		if (!gameOver())
+			update();
 	}
 
 }
