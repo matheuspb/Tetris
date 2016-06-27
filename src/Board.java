@@ -153,6 +153,16 @@ public class Board implements ActionListener {
 		}
 	}
 
+	private void moveTwoLeft() {
+		moveToLeft();
+
+		if (canMoveLeft()) {
+			moveToLeft();
+		} else {
+			moveToRight();
+		}
+	}
+
 	private void moveOneBlockDown(int i, int j) {
 		// Moves down the block at i j position.
 		matrix[i + 1][j] = matrix[i][j];
@@ -247,20 +257,36 @@ public class Board implements ActionListener {
 		if (currentPiece == 'O')
 			return;
 
+		int deltaJ = 0;
+
 		if (currentJ == -1) {
 			moveToRight();
+			deltaJ++;
 		} else if (currentJ == 8) {
-			moveToLeft();
-			if (currentPiece == 'I')
+			if (currentPiece == 'I') {
+				moveTwoLeft();
+				deltaJ -= 2;
+			} else {
 				moveToLeft();
-		}
-		
-		if (currentJ == 7 && currentPiece == 'I') {
+				deltaJ--;
+			}
+		} else if (currentJ == 7 && currentPiece == 'I') {
 			moveToLeft();
+			deltaJ--;
 		}
 
 		if (canRotate()) {
 			rotatePiece(currentI, currentJ);
+		} else {
+			while (deltaJ != 0) {
+				if (deltaJ > 0) {
+					moveToLeft();
+					deltaJ--;
+				} else if (deltaJ < 0) {
+					moveToRight();
+					deltaJ++;
+				}
+			}
 		}
 	}
 
@@ -346,7 +372,7 @@ public class Board implements ActionListener {
 
 	private void update() {
 		if (canMoveDown()) {
-			//moveToBottom();
+			moveToBottom();
 		} else {
 			stopAll();
 			clearFullLines();
