@@ -2,7 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-import javax.swing.Timer;
+import javax.swing.*;
 
 public class Board implements ActionListener {
 
@@ -360,7 +360,7 @@ public class Board implements ActionListener {
 		return out;
 	}
 
-	private boolean gameOver() {
+	public boolean gameOver() {
 		// Check if the pieces can still move or they hit the top of the window.
 		for (int i = 0; i < matrix[0].length; i++) {
 			if (matrix[1][i].show() && !matrix[1][i].moving()) {
@@ -370,14 +370,28 @@ public class Board implements ActionListener {
 		return false;
 	}
 
+	private void restartGame() {
+		// Clean all the matrix.
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length ; j++) {
+				matrix[i][j] = new Block(false, false);
+			}
+		}
+	}
+
 	private void update() {
 		if (canMoveDown()) {
 			moveToBottom();
 		} else {
 			stopAll();
 			clearFullLines();
-			if (gameOver())
-				return;
+			if (gameOver()) {
+				int answer = JOptionPane.showConfirmDialog(null, "Do you want to restart the game?", null, JOptionPane.YES_NO_OPTION);
+				if (answer == JOptionPane.YES_OPTION)
+					restartGame();
+				else
+					return;
+			}
 			generatePiece();
 		}
 	}
