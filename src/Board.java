@@ -107,6 +107,10 @@ public class Board implements ActionListener {
 		index++;
 	}
 
+    public char generateNextPiece() {
+        return pieceSequence[index];
+    }
+
 	public void shuffleSequence() {
 		// Uses Random() to shuffle the array pieceSequence.
 		Random rnd = new Random();
@@ -394,6 +398,7 @@ public class Board implements ActionListener {
 			}
 			generatePiece();
 		}
+        System.out.println(generateNextPiece());
 	}
 
 	@Override
