@@ -235,26 +235,72 @@ public class Board implements ActionListener {
 		}
 	}
 
-	private void rotatePiece(int i, int j) {
-		Block tmp = new Block();
+	private Block[][] getPiece() {
+		Block[][] piece;
 
-		tmp = matrix[0 + i][0 + j];
-		matrix[0 + i][0 + j] = matrix[2 + i][0 + j];
-		matrix[2 + i][0 + j] = matrix[2 + i][2 + j];
-		matrix[2 + i][2 + j] = matrix[0 + i][2 + j];
-		matrix[0 + i][2 + j] = tmp;
+		if (currentPiece == 'I')
+			piece = new Block[4][4];
+		else
+			piece = new Block[3][3];
 
-		tmp = matrix[0 + i][1 + j];
-		matrix[0 + i][1 + j] = matrix[1 + i][0 + j];
-		matrix[1 + i][0 + j] = matrix[2 + i][1 + j];
-		matrix[2 + i][1 + j] = matrix[1 + i][2 + j];
-		matrix[1 + i][2 + j] = tmp;
-
-		if (currentPiece == 'I') {
-			tmp = matrix[1 + i][3 + j];
-			matrix[1 + i][3 + j] = matrix[3 + i][1 + j];
-			matrix[3 + i][1 + j] = tmp;
+		for (int m = 0; m < piece.length; m++) {
+			for (int n = 0; n < piece.length; n++) {
+				piece[m][n] = matrix[m + currentI][n + currentJ];
+			}
 		}
+
+		return piece;
+	}
+
+	private void putPiece(Block[][] piece) {
+		for (int m = 0; m < piece.length; m++) {
+			for (int n = 0; n < piece.length; n++) {
+				matrix[m + currentI][n + currentJ] = piece[m][n];
+			}
+		}
+	}
+
+	private void rotateInMatrix(int i, int j) {
+		putPiece(rotatePiece(getPiece(), currentPiece));
+	}
+
+	private Block[][] rotatePiece(Block[][] piece, char pieceType) {
+		Block[][] rotated;
+
+		if (pieceType == 'I')
+			rotated = new Block[4][4];
+		else
+			rotated = new Block[3][3];
+
+		for (int i = 0; i < rotated.length; i++) {
+			for (int j = 0; j < rotated.length; j++) {
+				if (piece[i][j].show() && !piece[i][j].moving())
+					rotated[i][j] = piece[i][j];
+				else
+					rotated[i][j] = new Block();
+			}
+		}
+
+		int[] c = { 0, 2, 2, 0, 0, 2, 2, 0 };
+		int[] c2 = { 0, 1, 2, 1, 0, 1, 2, 1 };
+
+		for (int i = 0; i < 4; i++) {
+			if (piece[c[i + 1]][c[i]].moving()) {
+				rotated[c[i]][c[i + 3]] = piece[c[i + 1]][c[i]];
+			}
+			if (piece[c2[i + 1]][c2[i]].moving()) {
+				rotated[c2[i]][c2[i + 3]] = piece[c2[i + 1]][c2[i]];
+			}
+		}
+
+		if (pieceType == 'I') {
+			rotated[1][3] = piece[3][1];
+			rotated[3][1] = piece[1][3];
+		}
+
+		rotated[1][1] = piece[1][1];
+
+		return rotated;
 	}
 
 	public void rotate() {
@@ -280,7 +326,7 @@ public class Board implements ActionListener {
 		}
 
 		if (canRotate()) {
-			rotatePiece(currentI, currentJ);
+			rotateInMatrix(currentI, currentJ);
 		} else {
 			while (deltaJ != 0) {
 				if (deltaJ > 0) {
@@ -295,23 +341,18 @@ public class Board implements ActionListener {
 	}
 
 	private boolean canRotate() {
-		int offset = 3;
-		if (currentPiece == 'I') {
-			offset = 4;
-		}
+		Block[][] piece = getPiece();
+		Block[][] rotated = rotatePiece(piece, currentPiece);
 
-		if (currentJ + offset > 10 || currentJ < 0) {
-			return false;
-		}
-
-		for (int i = currentI; i < currentI + offset; i++) {
-			for (int j = currentJ; j < currentJ + offset; j++) {
-				if (matrix[i][j].show() && !matrix[i][j].moving())
+		for (int i = 0; i < rotated.length; i++) {
+			for (int j = 0; j < rotated.length; j++) {
+				if (piece[i][j].show() && !piece[i][j].moving()
+						&& rotated[i][j].moving())
 					return false;
 			}
 		}
-		return true;
 
+		return true;
 	}
 
 	private void stopAll() {
