@@ -415,13 +415,14 @@ public class Board implements ActionListener {
 		return false;
 	}
 
-	private void restartGame() {
+	public void restartGame() {
 		// Clean all the matrix.
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length ; j++) {
 				matrix[i][j] = new Block(false, false);
 			}
 		}
+		init();
 	}
 
 	private void update() {
@@ -431,11 +432,7 @@ public class Board implements ActionListener {
 			stopAll();
 			clearFullLines();
 			if (gameOver()) {
-				int answer = JOptionPane.showConfirmDialog(null, "Do you want to restart the game?", null, JOptionPane.YES_NO_OPTION);
-				if (answer == JOptionPane.YES_OPTION)
-					restartGame();
-				else
-					return;
+				return;
 			}
 			generatePiece();
 		}

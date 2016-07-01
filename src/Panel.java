@@ -13,7 +13,7 @@ public class Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Board board;
 
-	private Image blue, cyan, green, magenta, orange, red, yellow;
+	private Image blue, cyan, green, magenta, orange, red, yellow, restartbutton;
 
 	public static final int BLOCK_SIZE = 24;
 
@@ -27,6 +27,7 @@ public class Panel extends JPanel {
 			orange = ImageIO.read(new File("resources/orange.png"));
 			red = ImageIO.read(new File("resources/red.png"));
 			yellow = ImageIO.read(new File("resources/yellow.png"));
+			restartbutton = ImageIO.read(new File("resources/restartbutton.png"));
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
@@ -103,6 +104,11 @@ public class Panel extends JPanel {
         }
     }
 
+	private void drawRestartButton(Graphics g) {
+		g.drawImage(restartbutton, BLOCK_SIZE * 11, BLOCK_SIZE * 16, BLOCK_SIZE * 4,
+				BLOCK_SIZE * 2, this);
+
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -111,6 +117,7 @@ public class Panel extends JPanel {
 		drawGrid(g);
         drawNextSquare(g);
         drawNextBlock(g, board.generateNextPiece());
+		drawRestartButton(g);
 		char[][] matrix = board.matrix(); // See matrix() method in Board
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
