@@ -25,6 +25,9 @@ public class Keyboard implements KeyListener {
 		if (event.getKeyCode() == KeyEvent.VK_UP) {
 			board.rotate();
 		}
+		if (event.getKeyCode() == KeyEvent.VK_R) {
+			board.restartGame();
+		}
 	}
 
 	public void keyReleased(KeyEvent event) {
