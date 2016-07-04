@@ -250,7 +250,11 @@ public class Board implements ActionListener {
 
 		for (int m = 0; m < piece.length; m++) {
 			for (int n = 0; n < piece.length; n++) {
-				piece[m][n] = matrix[m + currentI][n + currentJ].clone();
+				try {
+					piece[m][n] = matrix[m + currentI][n + currentJ].clone();
+				} catch (ArrayIndexOutOfBoundsException e) {
+					piece[m][n] = new Block(true, false);
+				}
 			}
 		}
 
@@ -312,37 +316,32 @@ public class Board implements ActionListener {
 	}
 
 	public void rotate() {
+		// If possible, rotates the piece 90 degrees right
 		if (currentPiece == 'O')
 			return;
 
-		int deltaJ = 0;
+		int oldJ = currentJ;
 
 		if (currentJ == -1) {
 			moveRight();
-			deltaJ++;
 		} else if (currentJ == 8) {
 			if (currentPiece == 'I') {
 				moveTwoLeft();
-				deltaJ -= 2;
 			} else {
 				moveLeft();
-				deltaJ--;
 			}
 		} else if (currentJ == 7 && currentPiece == 'I') {
 			moveLeft();
-			deltaJ--;
 		}
 
 		if (canRotate()) {
 			rotateInMatrix(currentI, currentJ);
 		} else {
-			while (deltaJ != 0) {
-				if (deltaJ > 0) {
+			while (currentJ != oldJ) {
+				if (currentJ > oldJ) {
 					moveLeft();
-					deltaJ--;
-				} else if (deltaJ < 0) {
+				} else if (currentJ < oldJ) {
 					moveRight();
-					deltaJ++;
 				}
 			}
 		}
