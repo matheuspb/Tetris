@@ -107,7 +107,7 @@ public class Board implements ActionListener {
 		index++;
 	}
 
-	public void shuffleSequence() {
+	private void shuffleSequence() {
 		// Uses Random() to shuffle the array pieceSequence.
 		Random rnd = new Random();
 		for (int i = 0; i < pieceSequence.length - 1; i++) {
@@ -119,7 +119,8 @@ public class Board implements ActionListener {
 		}
 	}
 
-	public void moveToLeft() {
+	public void moveLeft() {
+		// Moves the current piece left, if canMoveLeft() returns true
 		if (canMoveLeft()) {
 			for (int i = 0; i < matrix.length; i++) {
 				for (int j = 0; j < matrix[0].length; j++) {
@@ -130,7 +131,8 @@ public class Board implements ActionListener {
 		}
 	}
 
-	public void moveToRight() {
+	public void moveRight() {
+		// Moves the current piece right, if canMoveRight() returns true
 		if (canMoveRight()) {
 			for (int i = 0; i < matrix.length; i++) {
 				for (int j = matrix[0].length - 1; j >= 0; j--) {
@@ -141,7 +143,8 @@ public class Board implements ActionListener {
 		}
 	}
 
-	public void moveToBottom() {
+	public void moveDown() {
+		// Moves the current piece down, if canMoveDown() returns true
 		if (canMoveDown()) {
 			for (int i = matrix.length - 1; i >= 0; i--) {
 				for (int j = 0; j < matrix[0].length; j++) {
@@ -154,12 +157,13 @@ public class Board implements ActionListener {
 	}
 
 	private void moveTwoLeft() {
-		moveToLeft();
+		// If possible, moves the current piece two times left
+		moveLeft();
 
 		if (canMoveLeft()) {
-			moveToLeft();
+			moveLeft();
 		} else {
-			moveToRight();
+			moveRight();
 		}
 	}
 
@@ -170,13 +174,15 @@ public class Board implements ActionListener {
 	}
 
 	public void hardDrop() {
+		// 'hard drops' the piece
 		while (canMoveDown()) {
-			moveToBottom();
+			moveDown();
 		}
 		update();
 	}
 
 	private boolean canMoveRight() {
+		// Returns true if the piece can be moved right
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				if (matrix[i][j].moving()) {
@@ -192,6 +198,7 @@ public class Board implements ActionListener {
 	}
 
 	private boolean canMoveLeft() {
+		// Returns true if the piece can be moved left
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				if (matrix[i][j].moving()) {
@@ -207,6 +214,7 @@ public class Board implements ActionListener {
 	}
 
 	private boolean canMoveDown() {
+		// Return true if the piece can be moved down
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				if (matrix[i][j].moving()) {
@@ -232,6 +240,7 @@ public class Board implements ActionListener {
 	}
 
 	private Block[][] getPiece() {
+		// Returns a 3x3 or 4x4 matrix correspondent to the current piece
 		Block[][] piece;
 
 		if (currentPiece == 'I')
@@ -241,7 +250,7 @@ public class Board implements ActionListener {
 
 		for (int m = 0; m < piece.length; m++) {
 			for (int n = 0; n < piece.length; n++) {
-				piece[m][n] = matrix[m + currentI][n + currentJ];
+				piece[m][n] = matrix[m + currentI][n + currentJ].clone();
 			}
 		}
 
@@ -249,6 +258,7 @@ public class Board implements ActionListener {
 	}
 
 	private void putPiece(Block[][] piece) {
+		// Puts 'piece' back into the matrix, in the current position
 		for (int m = 0; m < piece.length; m++) {
 			for (int n = 0; n < piece.length; n++) {
 				matrix[m + currentI][n + currentJ] = piece[m][n];
@@ -257,10 +267,12 @@ public class Board implements ActionListener {
 	}
 
 	private void rotateInMatrix(int i, int j) {
+		// Rotates the piece and puts it back into the matrix
 		putPiece(rotatePiece(getPiece(), currentPiece));
 	}
 
 	private Block[][] rotatePiece(Block[][] piece, char pieceType) {
+		// Returns the moving blocks of piece[][] rotated
 		Block[][] rotated;
 
 		if (pieceType == 'I')
@@ -271,7 +283,7 @@ public class Board implements ActionListener {
 		for (int i = 0; i < rotated.length; i++) {
 			for (int j = 0; j < rotated.length; j++) {
 				if (piece[i][j].show() && !piece[i][j].moving())
-					rotated[i][j] = piece[i][j];
+					rotated[i][j] = piece[i][j].clone();
 				else
 					rotated[i][j] = new Block();
 			}
@@ -306,18 +318,18 @@ public class Board implements ActionListener {
 		int deltaJ = 0;
 
 		if (currentJ == -1) {
-			moveToRight();
+			moveRight();
 			deltaJ++;
 		} else if (currentJ == 8) {
 			if (currentPiece == 'I') {
 				moveTwoLeft();
 				deltaJ -= 2;
 			} else {
-				moveToLeft();
+				moveLeft();
 				deltaJ--;
 			}
 		} else if (currentJ == 7 && currentPiece == 'I') {
-			moveToLeft();
+			moveLeft();
 			deltaJ--;
 		}
 
@@ -326,10 +338,10 @@ public class Board implements ActionListener {
 		} else {
 			while (deltaJ != 0) {
 				if (deltaJ > 0) {
-					moveToLeft();
+					moveLeft();
 					deltaJ--;
 				} else if (deltaJ < 0) {
-					moveToRight();
+					moveRight();
 					deltaJ++;
 				}
 			}
@@ -337,6 +349,7 @@ public class Board implements ActionListener {
 	}
 
 	private boolean canRotate() {
+		// Returns true if the current piece can be rotated
 		Block[][] piece = getPiece();
 		Block[][] rotated = rotatePiece(piece, currentPiece);
 
@@ -413,7 +426,7 @@ public class Board implements ActionListener {
 
 	private void update() {
 		if (canMoveDown()) {
-			moveToBottom();
+			moveDown();
 		} else {
 			stopAll();
 			clearFullLines();

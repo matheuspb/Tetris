@@ -11,13 +11,13 @@ public class Keyboard implements KeyListener {
 
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_LEFT) {
-			board.moveToLeft();
+			board.moveLeft();
 		}
 		if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-			board.moveToRight();
+			board.moveRight();
 		}
 		if (event.getKeyCode() == KeyEvent.VK_DOWN) {
-			board.moveToBottom();
+			board.moveDown();
 		}
 		if (event.getKeyCode() == KeyEvent.VK_SPACE) {
 			board.hardDrop();
