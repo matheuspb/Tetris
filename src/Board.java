@@ -2,7 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-import javax.swing.Timer;
+import javax.swing.*;
 
 public class Board implements ActionListener {
 
@@ -105,6 +105,10 @@ public class Board implements ActionListener {
 			index = 0;
 		}
 		index++;
+	}
+
+	public char generateNextPiece() {
+		return pieceSequence[index];
 	}
 
 	private void shuffleSequence() {
@@ -413,7 +417,7 @@ public class Board implements ActionListener {
 		return out;
 	}
 
-	private boolean gameOver() {
+	public boolean gameOver() {
 		// Check if the pieces can still move or they hit the top of the window.
 		for (int i = 0; i < matrix[0].length; i++) {
 			if (matrix[1][i].show() && !matrix[1][i].moving()) {
@@ -423,14 +427,25 @@ public class Board implements ActionListener {
 		return false;
 	}
 
+	public void restartGame() {
+		// Clean all the matrix.
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				matrix[i][j] = new Block(false, false);
+			}
+		}
+		init();
+	}
+
 	private void update() {
 		if (canMoveDown()) {
 			moveDown();
 		} else {
 			stopAll();
 			clearFullLines();
-			if (gameOver())
+			if (gameOver()) {
 				return;
+			}
 			generatePiece();
 		}
 	}
