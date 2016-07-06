@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -18,7 +17,10 @@ public class Panel extends JPanel {
 
 	public final static int BLOCK_SIZE = 24;
 
-	public Panel(Board board) {
+	public static int IMG_X;
+	public static int IMG_Y;
+
+	public Panel(Board board, int frameHeight) {
 		super();
 		try {
 			blue = ImageIO.read(new File("resources/blue.png"));
@@ -34,7 +36,8 @@ public class Panel extends JPanel {
 			System.out.println(e.getMessage());
 		}
 		this.board = board;
-		this.setPreferredSize(new Dimension(BLOCK_SIZE * 16, BLOCK_SIZE * 20));
+		IMG_X = BLOCK_SIZE * 11;
+		IMG_Y = frameHeight - BLOCK_SIZE * 5;
 	}
 
 	public void draw() {
@@ -58,31 +61,22 @@ public class Panel extends JPanel {
 				BLOCK_SIZE, this);
 	}
 
-	private void drawNextSquare(Graphics g) {
-		for (int i = 3; i < 7; i++) {
-			for (int j = 11; j < 15; j++) {
-				g.drawRect(BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE,
-						BLOCK_SIZE);
-			}
-		}
-	}
-
 	private void drawNextBlock(Graphics g, char piece) {
 		if (piece == 'I') {
-			drawBlock(g, 3, 12, cyan);
-			drawBlock(g, 4, 12, cyan);
+			drawBlock(g, 5, 11, cyan);
 			drawBlock(g, 5, 12, cyan);
-			drawBlock(g, 6, 12, cyan);
+			drawBlock(g, 5, 13, cyan);
+			drawBlock(g, 5, 14, cyan);
 		} else if (piece == 'J') {
-			drawBlock(g, 4, 13, blue);
+			drawBlock(g, 4, 12, blue);
+			drawBlock(g, 5, 12, blue);
 			drawBlock(g, 5, 13, blue);
-			drawBlock(g, 6, 13, blue);
-			drawBlock(g, 6, 12, blue);
+			drawBlock(g, 5, 14, blue);
 		} else if (piece == 'L') {
-			drawBlock(g, 4, 12, orange);
 			drawBlock(g, 5, 12, orange);
-			drawBlock(g, 6, 12, orange);
-			drawBlock(g, 6, 13, orange);
+			drawBlock(g, 5, 13, orange);
+			drawBlock(g, 5, 14, orange);
+			drawBlock(g, 4, 14, orange);
 		} else if (piece == 'S') {
 			drawBlock(g, 5, 12, green);
 			drawBlock(g, 5, 13, green);
@@ -94,10 +88,10 @@ public class Panel extends JPanel {
 			drawBlock(g, 5, 13, red);
 			drawBlock(g, 5, 14, red);
 		} else if (piece == 'T') {
-			drawBlock(g, 4, 12, magenta);
-			drawBlock(g, 4, 13, magenta);
+			drawBlock(g, 5, 12, magenta);
 			drawBlock(g, 5, 13, magenta);
 			drawBlock(g, 4, 14, magenta);
+			drawBlock(g, 5, 14, magenta);
 		} else if (piece == 'O') {
 			drawBlock(g, 4, 12, yellow);
 			drawBlock(g, 5, 12, yellow);
@@ -106,20 +100,14 @@ public class Panel extends JPanel {
 		}
 	}
 
-	private void drawRestartButton(Graphics g) {
-		g.drawImage(restartbutton, BLOCK_SIZE * 11, BLOCK_SIZE * 16,
-				BLOCK_SIZE * 4, BLOCK_SIZE * 2, this);
-
-	}
-
 	@Override
 	public void paintComponent(Graphics g) {
 		// Draws block images on the correct positions based on board.matrix()
 		super.paintComponent(g);
 		drawGrid(g);
-		drawNextSquare(g);
 		drawNextBlock(g, board.generateNextPiece());
-		drawRestartButton(g);
+		g.drawImage(restartbutton, BLOCK_SIZE * 11, BLOCK_SIZE * 15, 100, 35,
+				this);
 		char[][] matrix = board.matrix(); // See matrix() method in Board
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {

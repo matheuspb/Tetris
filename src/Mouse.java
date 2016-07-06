@@ -14,12 +14,9 @@ public class Mouse implements MouseListener {
 		this.mouseX = event.getX();
 		this.mouseY = event.getY();
 
-		if (mouseX > Panel.BLOCK_SIZE * 11 && mouseX < Panel.BLOCK_SIZE * 15) {
-			if (mouseY > Panel.BLOCK_SIZE * 17
-					&& mouseY < Panel.BLOCK_SIZE * 19 - 4) {
+		if (mouseX > Panel.IMG_X && mouseX < Panel.IMG_X + 100) {
+			if (mouseY > Panel.IMG_Y && mouseY < Panel.IMG_Y + 35) {
 				board.restartGame();
-				mouseX = 0;
-				mouseY = 0;
 			}
 		}
 	}

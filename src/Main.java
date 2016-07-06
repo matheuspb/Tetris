@@ -6,10 +6,6 @@ public class Main {
 	public static void main(String[] args) {
 
 		JFrame window = new JFrame();
-		Board board = new Board();
-		Keyboard keyboard = new Keyboard(board);
-		Panel pan = new Panel(board);
-		Mouse mouse = new Mouse(board);
 
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.getContentPane().setPreferredSize(
@@ -17,14 +13,18 @@ public class Main {
 		window.setResizable(false);
 		window.setTitle("Tetris");
 
+		Board board = new Board();
+		window.addKeyListener(new Keyboard(board));
+		window.addMouseListener(new Mouse(board));
+
+		window.setVisible(true);
+		window.pack();
+
+		Panel pan = new Panel(board, window.getHeight());
 		window.add(pan);
 
-		window.pack();
-		window.setVisible(true);
-
-		window.addKeyListener(keyboard);
-		window.addMouseListener(mouse);
 		board.init();
+		window.pack();
 
 		while (true) {
 			pan.draw();

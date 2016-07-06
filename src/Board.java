@@ -45,6 +45,7 @@ public class Board implements ActionListener {
 
 	public void init() {
 		timer.start();
+		index = 0;
 		shuffleSequence();
 		generatePiece();
 	}
@@ -100,11 +101,11 @@ public class Board implements ActionListener {
 		}
 		currentJ = 3;
 		currentI = 0;
-		if (index == 6) {
+		index++;
+		if (index == 7) {
 			shuffleSequence();
 			index = 0;
 		}
-		index++;
 	}
 
 	public char generateNextPiece() {
