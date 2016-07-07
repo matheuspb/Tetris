@@ -40,10 +40,6 @@ public class Panel extends JPanel {
 		IMG_Y = frameHeight - BLOCK_SIZE * 5;
 	}
 
-	public void draw() {
-		this.repaint();
-	}
-
 	private void drawGrid(Graphics g) {
 		// Draws the grid behind the pieces
 		for (int i = 0; i < 20; i++) {
@@ -90,7 +86,7 @@ public class Panel extends JPanel {
 		} else if (piece == 'T') {
 			drawBlock(g, 5, 12, magenta);
 			drawBlock(g, 5, 13, magenta);
-			drawBlock(g, 4, 14, magenta);
+			drawBlock(g, 4, 13, magenta);
 			drawBlock(g, 5, 14, magenta);
 		} else if (piece == 'O') {
 			drawBlock(g, 4, 12, yellow);

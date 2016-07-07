@@ -27,7 +27,7 @@ public class Main {
 		window.pack();
 
 		while (true) {
-			pan.draw();
+			pan.repaint();
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {

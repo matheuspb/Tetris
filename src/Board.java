@@ -56,6 +56,7 @@ public class Board implements ActionListener {
 		 * generates it. When it reaches the end of 'pieceSequence', it calls
 		 * shuffleSequence() to regenerate the pattern.
 		 */
+
 		if (pieceSequence[index] == 'I') {
 			matrix[1][3].init('I');
 			matrix[1][4].init('I');
@@ -220,6 +221,8 @@ public class Board implements ActionListener {
 
 	private boolean canMoveDown() {
 		// Return true if the piece can be moved down
+		if (gameOver())
+			return false;
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 				if (matrix[i][j].moving()) {
@@ -420,9 +423,11 @@ public class Board implements ActionListener {
 
 	public boolean gameOver() {
 		// Check if the pieces can still move or they hit the top of the window.
-		for (int i = 0; i < matrix[0].length; i++) {
-			if (matrix[1][i].show() && !matrix[1][i].moving()) {
-				return true;
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				if (matrix[i][j].show() && !matrix[i][j].moving()) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -444,10 +449,8 @@ public class Board implements ActionListener {
 		} else {
 			stopAll();
 			clearFullLines();
-			if (gameOver()) {
-				return;
-			}
-			generatePiece();
+			if (!gameOver())
+				generatePiece();
 		}
 	}
 
