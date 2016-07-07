@@ -4,3 +4,8 @@
 .classpath
 .project
 /.settings
+
+.idea
+Tetris.iml
+/out
+
