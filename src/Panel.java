@@ -1,6 +1,4 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,6 +18,8 @@ public class Panel extends JPanel {
 	public static int IMG_X;
 	public static int IMG_Y;
 
+	JLabel scoreLabel;
+
 	public Panel(Board board, int frameHeight) {
 		super();
 		try {
@@ -38,6 +38,8 @@ public class Panel extends JPanel {
 		this.board = board;
 		IMG_X = BLOCK_SIZE * 11;
 		IMG_Y = frameHeight - BLOCK_SIZE * 5;
+		scoreLabel = new JLabel("Score: ");
+		this.add(scoreLabel);
 	}
 
 	private void drawGrid(Graphics g) {
@@ -100,6 +102,8 @@ public class Panel extends JPanel {
 	public void paintComponent(Graphics g) {
 		// Draws block images on the correct positions based on board.matrix()
 		super.paintComponent(g);
+		scoreLabel.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE * 10);
+		scoreLabel.setText("Score: " + board.score());
 		drawGrid(g);
 		drawNextBlock(g, board.generateNextPiece());
 		g.drawImage(restartbutton, BLOCK_SIZE * 11, BLOCK_SIZE * 15, 100, 35,

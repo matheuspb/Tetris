@@ -21,6 +21,8 @@ public class Board implements ActionListener {
 
 	char currentPiece;
 
+	Score score;
+
 	public Board() {
 		matrix = new Block[21][10];
 		for (int i = 0; i < matrix.length; i++) {
@@ -41,6 +43,7 @@ public class Board implements ActionListener {
 		currentJ = 0;
 		currentI = 0;
 		currentPiece = '.';
+		score = new Score();
 	}
 
 	public void init() {
@@ -48,6 +51,7 @@ public class Board implements ActionListener {
 		index = 0;
 		shuffleSequence();
 		generatePiece();
+		score = new Score();
 	}
 
 	private void generatePiece() {
@@ -398,13 +402,16 @@ public class Board implements ActionListener {
 		}
 	}
 
-	private void clearFullLines() {
-		// Detects and clears full lines
+	private int clearFullLines() {
+		// Detects and clears full lines, returns how many lines were cleared
+		int lines = 0;
 		for (int i = 0; i < matrix.length; i++) {
 			if (detectFullLine(i)) {
 				clearLine(i);
+				lines++;
 			}
 		}
+		return lines;
 	}
 
 	public char[][] matrix() {
@@ -421,7 +428,12 @@ public class Board implements ActionListener {
 		return out;
 	}
 
-	public boolean gameOver() {
+	public int score() {
+		// Returns the current score
+		return score.score();
+	}
+
+	private boolean gameOver() {
 		// Check if the pieces can still move or they hit the top of the window.
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
@@ -448,7 +460,7 @@ public class Board implements ActionListener {
 			moveDown();
 		} else {
 			stopAll();
-			clearFullLines();
+			score.addToScore(clearFullLines());
 			if (!gameOver())
 				generatePiece();
 		}
