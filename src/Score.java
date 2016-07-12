@@ -16,6 +16,7 @@ public class Score {
 	}
 
 	public void addToScore(int sequence) {
+		// Adds to the score based on how many lines were cleared
 		int add = 0;
 		if (isTetris && sequence != 0) {
 			add = 2 * linesClearedScore[sequence];
@@ -30,6 +31,7 @@ public class Score {
 	}
 
 	public int score() {
+		// Returns the current score
 		return score;
 	}
 

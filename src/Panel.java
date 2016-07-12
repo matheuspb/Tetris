@@ -15,8 +15,8 @@ public class Panel extends JPanel {
 
 	public final static int BLOCK_SIZE = 24;
 
-	public static int IMG_X;
-	public static int IMG_Y;
+	public static int RESTART_IMG_X;
+	public static int RESTART_IMG_Y;
 
 	JLabel scoreLabel;
 
@@ -36,8 +36,8 @@ public class Panel extends JPanel {
 			System.out.println(e.getMessage());
 		}
 		this.board = board;
-		IMG_X = BLOCK_SIZE * 11;
-		IMG_Y = frameHeight - BLOCK_SIZE * 5;
+		RESTART_IMG_X = BLOCK_SIZE * 11;
+		RESTART_IMG_Y = frameHeight - BLOCK_SIZE * 5;
 		scoreLabel = new JLabel("Score: ");
 		this.add(scoreLabel);
 	}
@@ -105,7 +105,7 @@ public class Panel extends JPanel {
 		scoreLabel.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE * 10);
 		scoreLabel.setText("Score: " + board.score());
 		drawGrid(g);
-		drawNextBlock(g, board.generateNextPiece());
+		drawNextBlock(g, board.nextPiece());
 		g.drawImage(restartbutton, BLOCK_SIZE * 11, BLOCK_SIZE * 15, 100, 35,
 				this);
 		char[][] matrix = board.matrix(); // See matrix() method in Board

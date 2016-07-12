@@ -14,14 +14,14 @@ public class Board implements ActionListener {
 	private Block[][] matrix;
 	private Timer timer;
 
-	char[] pieceSequence;
-	int index;
+	private char[] pieceSequence;
+	private int index;
 
-	int currentJ, currentI;
+	private int currentJ, currentI;
 
-	char currentPiece;
+	private char currentPiece;
 
-	Score score;
+	private Score score;
 
 	public Board() {
 		matrix = new Block[21][10];
@@ -113,7 +113,7 @@ public class Board implements ActionListener {
 		}
 	}
 
-	public char generateNextPiece() {
+	public char nextPiece() {
 		return pieceSequence[index];
 	}
 
