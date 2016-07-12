@@ -13,15 +13,11 @@ public class Board implements ActionListener {
 
 	private Block[][] matrix;
 	private Timer timer;
+	private Score score;
+	private char currentPiece;
+	private char[] pieceSequence;
+	private int index, currentJ, currentI;
 
-	char[] pieceSequence;
-	int index;
-
-	int currentJ, currentI;
-
-	char currentPiece;
-
-	Score score;
 
 	public Board() {
 		matrix = new Block[21][10];
