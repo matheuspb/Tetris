@@ -20,6 +20,9 @@ public class Board implements ActionListener {
 	private HighScores highScores;
 	private Serialize<HighScores> serHighScore;
 	private JFrame frame;
+	public boolean pieceStopped = false;
+	public boolean editMode = false;
+
 
 	public Board(HighScores highScores, JFrame frame) {
 		matrix = new Block[21][10];
@@ -461,8 +464,24 @@ public class Board implements ActionListener {
 		init();
 	}
 
+	public void isEditMode() {
+		if(editMode == false) { this.editMode = true; }
+		else {this.editMode = false; }
+	}
+	public String actualMode() {
+		if(editMode) { return "Editing"; }
+		return "Normal";
+	}
+
 	private void update() {
-		if (!gameOver()) {
+		if(this.editMode) {
+			if(pieceStopped) {
+				stopAll();
+				pieceStopped = false;
+				generatePiece();
+			}
+		}
+		else if (!gameOver()) {
 			if (canMoveDown()) {
 				moveDown();
 			} else {

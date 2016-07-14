@@ -20,6 +20,7 @@ public class Panel extends JPanel {
 
 	private JLabel scoreLabel;
 	private JLabel highScoresLabel;
+	private JLabel actualMode;
 
 	public Panel(Board board, int frameHeight) {
 		super();
@@ -43,6 +44,8 @@ public class Panel extends JPanel {
 		this.add(scoreLabel);
 		highScoresLabel = new JLabel("Top 5: ");
 		this.add(highScoresLabel);
+		actualMode = new JLabel();
+		this.add(actualMode);
 	}
 
 	private void drawGrid(Graphics g) {
@@ -107,6 +110,8 @@ public class Panel extends JPanel {
 		super.paintComponent(g);
 		scoreLabel.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE * 2);
 		scoreLabel.setText("Score: " + board.score());
+		actualMode.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE);
+		actualMode.setText(board.actualMode());
 		highScoresLabel.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE * 8);
 		highScoresLabel.setText(board.topFive());
 		drawGrid(g);
