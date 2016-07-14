@@ -27,6 +27,8 @@ public class Serialize<T> {
 			obj = (T) in.readObject();
 			in.close();
 			fileIn.close();
+		} catch(java.io.FileNotFoundException e) {
+			obj = null;
 		} catch (EOFException e) {
 			obj = null;
 		} catch (IOException i) {
