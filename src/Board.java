@@ -17,9 +17,11 @@ public class Board implements ActionListener {
 	private char currentPiece;
 	private char[] pieceSequence;
 	private int index, currentJ, currentI;
+	private HighScores highScores;
+	private Serialize<HighScores> serHighScore;
+	private JFrame frame;
 
-
-	public Board() {
+	public Board(HighScores highScores, JFrame frame) {
 		matrix = new Block[21][10];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
@@ -40,6 +42,9 @@ public class Board implements ActionListener {
 		currentI = 0;
 		currentPiece = '.';
 		score = new Score();
+		this.highScores = highScores;
+		this.serHighScore = new Serialize<HighScores>();
+		this.frame = frame;
 	}
 
 	public void init() {
@@ -109,7 +114,7 @@ public class Board implements ActionListener {
 		}
 	}
 
-	public char generateNextPiece() {
+	public char nextPiece() {
 		return pieceSequence[index];
 	}
 
@@ -429,6 +434,11 @@ public class Board implements ActionListener {
 		return score.score();
 	}
 
+	public String topFive() {
+		// Returns a String using HTML to format it for use in a JLabel
+		return highScores.toStringHtml();
+	}
+
 	private boolean gameOver() {
 		// Check if the pieces can still move or they hit the top of the window.
 		for (int i = 0; i < 2; i++) {
@@ -452,20 +462,28 @@ public class Board implements ActionListener {
 	}
 
 	private void update() {
-		if (canMoveDown()) {
-			moveDown();
-		} else {
-			stopAll();
-			score.addToScore(clearFullLines());
-			if (!gameOver())
-				generatePiece();
+		if (!gameOver()) {
+			if (canMoveDown()) {
+				moveDown();
+			} else {
+				stopAll();
+				score.addToScore(clearFullLines());
+				if (!gameOver()) {
+					generatePiece();
+				} else {
+					JOptionPane.showMessageDialog(frame, "GAME OVER !\n"
+							+ "Your score was: " + score.score(), "Tetris",
+							JOptionPane.PLAIN_MESSAGE);
+					highScores.addScore(score);
+					serHighScore.save(highScores, "resources/highscores.ser");
+				}
+			}
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if (!gameOver())
-			update();
+		update();
 	}
 
 }
