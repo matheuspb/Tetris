@@ -22,8 +22,10 @@ public class Board implements ActionListener {
 	private char currentPiece;
 
 	private Score score;
+	private HighScores highScores;
+	private Serialize<HighScores> serHighScore;
 
-	public Board() {
+	public Board(HighScores highScores) {
 		matrix = new Block[21][10];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
@@ -44,6 +46,8 @@ public class Board implements ActionListener {
 		currentI = 0;
 		currentPiece = '.';
 		score = new Score();
+		this.highScores = highScores;
+		this.serHighScore = new Serialize<HighScores>();
 	}
 
 	public void init() {
@@ -433,6 +437,10 @@ public class Board implements ActionListener {
 		return score.score();
 	}
 
+	public String topFive() {
+		return highScores.toStringHtml();
+	}
+
 	private boolean gameOver() {
 		// Check if the pieces can still move or they hit the top of the window.
 		for (int i = 0; i < 2; i++) {
@@ -456,20 +464,25 @@ public class Board implements ActionListener {
 	}
 
 	private void update() {
-		if (canMoveDown()) {
-			moveDown();
-		} else {
-			stopAll();
-			score.addToScore(clearFullLines());
-			if (!gameOver())
-				generatePiece();
+		if (!gameOver()) {
+			if (canMoveDown()) {
+				moveDown();
+			} else {
+				stopAll();
+				score.addToScore(clearFullLines());
+				if (!gameOver()) {
+					generatePiece();
+				} else {
+					highScores.addScore(score);
+					serHighScore.save(highScores, "resources/highscores.ser");
+				}
+			}
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if (!gameOver())
-			update();
+		update();
 	}
 
 }

@@ -18,7 +18,8 @@ public class Panel extends JPanel {
 	public static int RESTART_IMG_X;
 	public static int RESTART_IMG_Y;
 
-	JLabel scoreLabel;
+	private JLabel scoreLabel;
+	private JLabel highScoresLabel;
 
 	public Panel(Board board, int frameHeight) {
 		super();
@@ -40,6 +41,8 @@ public class Panel extends JPanel {
 		RESTART_IMG_Y = frameHeight - BLOCK_SIZE * 5;
 		scoreLabel = new JLabel("Score: ");
 		this.add(scoreLabel);
+		highScoresLabel = new JLabel("Top 5: ");
+		this.add(highScoresLabel);
 	}
 
 	private void drawGrid(Graphics g) {
@@ -102,8 +105,10 @@ public class Panel extends JPanel {
 	public void paintComponent(Graphics g) {
 		// Draws block images on the correct positions based on board.matrix()
 		super.paintComponent(g);
-		scoreLabel.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE * 10);
+		scoreLabel.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE * 2);
 		scoreLabel.setText("Score: " + board.score());
+		highScoresLabel.setLocation(BLOCK_SIZE * 11, BLOCK_SIZE * 8);
+		highScoresLabel.setText(board.topFive());
 		drawGrid(g);
 		drawNextBlock(g, board.nextPiece());
 		g.drawImage(restartbutton, BLOCK_SIZE * 11, BLOCK_SIZE * 15, 100, 35,
