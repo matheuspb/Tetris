@@ -1,8 +1,8 @@
 public class Score {
 
-	int score;
-	boolean isTetris;
-	int[] linesClearedScore;
+	private int score;
+	private boolean isTetris;
+	private int[] linesClearedScore;
 
 	public Score() {
 		linesClearedScore = new int[5];

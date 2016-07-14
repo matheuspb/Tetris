@@ -25,7 +25,9 @@ public class Board implements ActionListener {
 	private HighScores highScores;
 	private Serialize<HighScores> serHighScore;
 
-	public Board(HighScores highScores) {
+	private JFrame frame;
+
+	public Board(HighScores highScores, JFrame frame) {
 		matrix = new Block[21][10];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
@@ -48,6 +50,7 @@ public class Board implements ActionListener {
 		score = new Score();
 		this.highScores = highScores;
 		this.serHighScore = new Serialize<HighScores>();
+		this.frame = frame;
 	}
 
 	public void init() {
@@ -438,6 +441,7 @@ public class Board implements ActionListener {
 	}
 
 	public String topFive() {
+		// Returns a String using HTML to format it for use in a JLabel
 		return highScores.toStringHtml();
 	}
 
@@ -473,6 +477,9 @@ public class Board implements ActionListener {
 				if (!gameOver()) {
 					generatePiece();
 				} else {
+					JOptionPane.showMessageDialog(frame, "GAME OVER !\n"
+							+ "Your score was: " + score.score(), "Tetris",
+							JOptionPane.PLAIN_MESSAGE);
 					highScores.addScore(score);
 					serHighScore.save(highScores, "resources/highscores.ser");
 				}

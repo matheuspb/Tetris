@@ -24,6 +24,7 @@ public class HighScores implements java.io.Serializable {
 		for (int i = topFive.length - 1; i >= 0; i--) {
 			output += ((topFive.length - i) + "- " + topFive[i] + "<br>");
 		}
+		output += "</html>";
 		return output;
 	}
 

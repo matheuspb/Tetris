@@ -107,7 +107,7 @@ public class Panel extends JPanel {
 		super.paintComponent(g);
 		scoreLabel.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE * 2);
 		scoreLabel.setText("Score: " + board.score());
-		highScoresLabel.setLocation(BLOCK_SIZE * 11, BLOCK_SIZE * 8);
+		highScoresLabel.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE * 8);
 		highScoresLabel.setText(board.topFive());
 		drawGrid(g);
 		drawNextBlock(g, board.nextPiece());

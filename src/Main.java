@@ -21,7 +21,7 @@ public class Main {
 			loadedHighScores = ser.load("resources/highscores.ser");
 		}
 
-		Board board = new Board(loadedHighScores);
+		Board board = new Board(loadedHighScores, window);
 
 		window.addKeyListener(new Keyboard(board));
 		window.addMouseListener(new Mouse(board));
