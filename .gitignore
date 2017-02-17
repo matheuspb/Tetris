@@ -9,3 +9,5 @@
 Tetris.iml
 /out
 
+resources/highscores.ser
+
