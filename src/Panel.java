@@ -19,7 +19,6 @@ public class Panel extends JPanel {
 
 	private JLabel scoreLabel;
 	private JLabel highScoresLabel;
-	private JLabel actualMode;
 
 	public Panel(Board board, int frameHeight) {
 		super();
@@ -43,8 +42,6 @@ public class Panel extends JPanel {
 		this.add(scoreLabel);
 		highScoresLabel = new JLabel("Top 5: ");
 		this.add(highScoresLabel);
-		actualMode = new JLabel();
-		this.add(actualMode);
 	}
 
 	private void drawGrid(Graphics g) {
@@ -111,8 +108,6 @@ public class Panel extends JPanel {
 		scoreLabel.setText("Score: " + board.score());
 		highScoresLabel.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE * 8);
 		highScoresLabel.setText(board.topFive());
-		actualMode.setLocation(BLOCK_SIZE * 12, BLOCK_SIZE);
-		actualMode.setText(board.actualMode());
 		drawGrid(g);
 		drawNextBlock(g, board.nextPiece());
 		g.drawImage(restartbutton, BLOCK_SIZE * 11, BLOCK_SIZE * 15, 100, 35,
